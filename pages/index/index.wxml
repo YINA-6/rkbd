@@ -1,0 +1,6 @@
+首页
+<view class="btn-area">
+  <navigator url="/subpkg/pastExam/pastExam" hover-class="navigator-hover">
+    《历年真题》
+  </navigator>
+</view>
