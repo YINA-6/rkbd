@@ -1,8 +1,9 @@
 {
     "pages": [
+        "pages/demo/index",
         "pages/index/index",
-        "pages/mine/mine",
-        "pages/demo/demo"
+        "pages/mine/index"
+
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -17,7 +18,7 @@
                 "text": "首页"
             },
             {
-                "pagePath": "pages/mine/mine",
+                "pagePath": "pages/mine/index",
                 "text": "我的"
             }
         ]
@@ -25,8 +26,8 @@
     "subpackages": [{
         "root": "subpkg",
         "pages": [
-            "pastExam/pastExam",
-            "mySwiper/mySwiper"
+            "pastExam/index",
+            "swiper/index"
         ]
     }],
     "sitemapLocation": "sitemap.json",
@@ -36,6 +37,8 @@
         "van-tag": "@vant/weapp/tag/index",
         "van-grid": "@vant/weapp/grid/index",
         "van-grid-item": "@vant/weapp/grid-item/index",
-        "van-popup": "@vant/weapp/popup/index"
+        "van-popup": "@vant/weapp/popup/index",
+        "van-row": "@vant/weapp/row/index",
+        "van-col": "@vant/weapp/col/index"
     }
 }

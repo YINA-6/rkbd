@@ -46,33 +46,43 @@
 
   <!-- 固定底部功能区域 -->
   <view class="btm">
-      <view class="collect " bindtap="onClickCollect">
-        <view class="iconfont icon-shoucang"></view><text>收藏</text>
-      </view>
-      <view>√ ×</view>
-      <view class="Stide-box" bindtap="showPopup">
-        <view class="iconfont icon-jihe"></view><text>10 / 20</text>
-      </view>
+    <view class="collect " bindtap="onClickCollect">
+      <view wx:if="{{swiperList[swiperCurrent].isCollected}}" class="iconfont icon-shoucang-click"></view>
+      <view wx:else class="iconfont icon-shoucang"></view>
+      <text>{{swiperList[swiperCurrent].isCollected == true? '已收藏':'收藏'}}</text>
     </view>
+    <view class="answer-box">
+      <view class="iconfont icon-succeed"></view><text style="color: #1989fa;">{{answerCount[0]}}</text>
+      <view class="iconfont icon-error"></view><text style="color: #ff6666;">{{answerCount[1]}}</text>
+    </view>
+    <view class="stide-box" bindtap="showPopup">
+      <view class="iconfont icon-jihe"></view><text>{{currentIndex+1}} / {{dataList.length}}</text>
+    </view>
+  </view>
 
   <!-- 弹出层区域 -->
   <van-popup show="{{ show }}" position="bottom" custom-style="height: 75%;" bind:close="onClose">
-    <!-- 底部功能区域 -->
+    <!-- 功能区域 -->
     <view class="popup-btm">
-      <view class="collect " bindtap="onClickCollect">
-        <view class="iconfont icon-shoucang"></view><text>收藏</text>
-      </view>
-      <view>√ ×</view>
-      <view class="Stide-box" bindtap="showPopup">
-        <view class="iconfont icon-jihe"></view><text>10 / 20</text>
-      </view>
+      <view class="collect ">
+      <view wx:if="{{swiperList[swiperCurrent].isCollected}}" class="iconfont icon-shoucang-click"></view>
+      <view wx:else class="iconfont icon-shoucang"></view>
+      <text>{{swiperList[swiperCurrent].isCollected == true? '已收藏':'收藏'}}</text>
+    </view>
+    <view class="answer-box">
+      <view class="iconfont icon-succeed"></view><text style="color: #1989fa;">{{answerCount[0]}}</text>
+      <view class="iconfont icon-error"></view><text style="color: #ff6666;">{{answerCount[1]}}</text>
+    </view>
+    <view class="stide-box" bindtap="showPopup">
+      <view class="iconfont icon-jihe"></view><text>{{currentIndex+1}} / {{dataList.length}}</text>
+    </view>
     </view>
     <!-- 分割区域 -->
     <view class="line-box"></view>
     <!-- 题号集区域 -->
     <view class="circle-box">
-      <block wx:for="{{50}}">
-        <view class="circle">{{item}}</view>
+      <block wx:for="{{dataList}}" wx:key="index">
+        <view class="circle" bindtap="onClickStide" data-item="{{dataList[index]}}" data-index="{{index}}">{{index+1}}</view>
       </block>
     </view>
   </van-popup>

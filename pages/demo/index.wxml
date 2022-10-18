@@ -32,7 +32,7 @@
   <van-grid-item wx:for="{{ 16 }}" 
   icon="column" 
   link-type="navigateTo"
-  url="/subpkg/mySwiper/mySwiper?year=2017&order=0"
+  url="/subpkg/swiper/index?year=2017&order=0"
   text="Navigate 跳转" 
   wx:key="index">
   </van-grid-item>

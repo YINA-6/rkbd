@@ -121,9 +121,10 @@ van-tag {
 
 .collect text {
     margin-left: 15rpx;
+    margin-top: 13rpx;
 }
 
-.Stide-box {
+.answer-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -131,8 +132,22 @@ van-tag {
     text-align: center;
 }
 
-.Stide-box text {
-    margin-top: 5rpx;
+.answer-box text {
+    margin-right: 20rpx;
+    margin-top: 13rpx;
+    margin-left: 4rpx;
+}
+
+.stide-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.stide-box text {
+    margin-top: 13rpx;
     margin-left: 15rpx;
 }
 

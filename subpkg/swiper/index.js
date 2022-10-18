@@ -16,8 +16,9 @@ Page({
         duration: 300, //动画时常
         ico: ['A', 'B', 'C', 'D'],
         answerCount: [0, 0], // 答题情况和数量 答对--答错
-        isCollected: false, // 是否已收藏
+        // isCollected: false, // 是否已收藏 添加到item里
         show: false, // 弹出层控制
+
     },
 
     //=============方法区==============
@@ -28,6 +29,12 @@ Page({
     onClose() {
         this.setData({ show: false });
     },
+    // 题号点击事件
+    onClickStide(e) {
+        this.onClose() //关闭弹出层
+        this.upSwiper(e.currentTarget.dataset.index) // 加载题目
+    },
+    // 导航栏点击事件
     onClickLeft() {
         this.getPageHeight()
             // this.upSwiper(10)
@@ -80,10 +87,15 @@ Page({
             currentIndex: this.data.currentIndex // 触发视图层更新 
         })
     },
-    onClickCollect(e) {
-        console.log(this.data.swiperList[this.data.swiperCurrent]);
+    // 收藏点击事件
+    onClickCollect() {
+        console.log("click tap")
+            // 更新修改后的item
+        this.data.swiperList[this.data.swiperCurrent].isCollected = true // 修改页面item
+        this.data.dataList[this.data.currentIndex] = this.data.swiperList[this.data.swiperCurrent] // 更新存储
         this.setData({
-            isCollected: !this.data.isCollected
+            swiperList: this.data.swiperList, // 覆盖数据
+            dataList: this.data.dataList, // 覆盖数据
         })
     },
     // swiper滑动触发事件
@@ -119,16 +131,16 @@ Page({
             current = 1
         }
         this.setData({
-                duration: 0
-            })
-            // current 和 list要同时更新，不然数据会闪
+            duration: 0
+        })
+
+        // current 和 list要同时更新，不然数据会闪
         this.setData({
             swiperCurrent: current,
             recordCurrent: current,
             duration: 300,
-            swiperList: list
+            swiperList: list,
         })
-
     },
     getPageHeight() {
         let totalHeight = 0

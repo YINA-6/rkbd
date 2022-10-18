@@ -1,7 +1,7 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 3711528 */
-    src: url('//at.alicdn.com/t/c/font_3711528_b39ii59p7vr.woff2?t=1666080484762') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_b39ii59p7vr.woff?t=1666080484762') format('woff'), url('//at.alicdn.com/t/c/font_3711528_b39ii59p7vr.ttf?t=1666080484762') format('truetype');
+    src: url('//at.alicdn.com/t/c/font_3711528_esdvr3ohqig.woff2?t=1666083662329') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_esdvr3ohqig.woff?t=1666083662329') format('woff'), url('//at.alicdn.com/t/c/font_3711528_esdvr3ohqig.ttf?t=1666083662329') format('truetype');
 }
 
 .iconfont {
@@ -12,12 +12,25 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-error:before {
+    content: "\e60a";
+    color: #ff6666;
+    font-size: 40rpx;
+}
+
+.icon-succeed:before {
+    content: "\e60b";
+    color: #1dacf9;
+    font-size: 40rpx;
+}
+
 .icon-shoucang:before {
     content: "\e86d";
 }
 
 .icon-shoucang-click:before {
     content: "\e906";
+    color: #1989fa;
 }
 
 .icon-jihe:before {
@@ -27,10 +40,12 @@
 
 .icon-cuo:before {
     content: "\e63f";
+    color: #ff6666;
 }
 
 .icon-dui:before {
     content: "\e609";
+    color: #1989fa;
 }
 
 .icon-A:before {
