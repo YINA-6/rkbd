@@ -6,5 +6,5 @@
   style="{{ computed.rootStyle({ currentDuration, display, customStyle }) }}"
   bind:transitionend="onTransitionEnd"
 >
-  <slot />
+  <slot></slot>
 </view>

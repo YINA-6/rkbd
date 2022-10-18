@@ -1,0 +1,39 @@
+<!-- 选项卡模块 -->
+<button bindtap="showPopup">弹出层</button>
+<!-- 弹出层区域 -->
+<van-popup show="{{ show }}" position="bottom" custom-style="height: 75%;" bind:close="onClose">
+
+  <!-- 底部功能区域 -->
+  <view class="btm">
+    <view class="collect " bindtap="onClickCollect">
+      <view class="iconfont icon-shoucang"></view><text>收藏</text>
+    </view>
+    <view>√ ×</view>
+    <view class="Stide-box">
+      <view class="iconfont icon-jihe"></view><text>10 / 20</text>
+    </view>
+  </view>
+
+
+  <!-- 分割区域 -->
+  <view class="line-box"></view>
+
+
+  <!-- 题号集区域 -->
+  <view class="circle-box">
+    <block wx:for="{{50}}">
+      <view class="circle">{{item}}</view>
+    </block>
+  </view>
+</van-popup>
+
+
+<van-grid clickable gutter="{{ 10 }}" column-num="2">
+  <van-grid-item wx:for="{{ 16 }}" 
+  icon="column" 
+  link-type="navigateTo"
+  url="/subpkg/mySwiper/mySwiper?year=2017&order=0"
+  text="Navigate 跳转" 
+  wx:key="index">
+  </van-grid-item>
+</van-grid>

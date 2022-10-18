@@ -1,0 +1,10 @@
+<!-- 底部功能区域 -->
+<view class="btm">
+  <view class="collect " bindtap="onClickCollect">
+    <view class="iconfont icon-shoucang"></view><text>收藏</text>
+  </view>
+  <view>√ ×</view>
+  <view class="Stide-box">
+    <view class="iconfont icon-jihe"></view><text>10 / 20</text>
+  </view>
+</view>

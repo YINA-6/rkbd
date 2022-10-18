@@ -35,6 +35,7 @@
         "van-nav-bar": "@vant/weapp/nav-bar/index",
         "van-tag": "@vant/weapp/tag/index",
         "van-grid": "@vant/weapp/grid/index",
-        "van-grid-item": "@vant/weapp/grid-item/index"
+        "van-grid-item": "@vant/weapp/grid-item/index",
+        "van-popup": "@vant/weapp/popup/index"
     }
 }

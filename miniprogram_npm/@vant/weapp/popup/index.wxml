@@ -16,7 +16,7 @@
   style="{{ computed.popupStyle({ zIndex, currentDuration, display, customStyle }) }}"
   bind:transitionend="onTransitionEnd"
 >
-  <slot />
+  <slot></slot>
   <van-icon
     wx:if="{{ closeable }}"
     name="{{ closeIcon }}"

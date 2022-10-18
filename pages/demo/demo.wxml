@@ -1,9 +1,0 @@
-<!-- 选项卡模块 -->
-<van-grid clickable gutter="{{ 10 }}" column-num="2">
-  <van-grid-item wx:for="{{ 16 }}" 
-  icon="column" 
-  link-type="navigateTo"
-  url="/subpkg/mySwiper/mySwiper?year=2017&order=0"
-  text="Navigate 跳转" >
-  </van-grid-item>
-</van-grid>

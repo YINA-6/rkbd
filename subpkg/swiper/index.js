@@ -16,10 +16,18 @@ Page({
         duration: 300, //动画时常
         ico: ['A', 'B', 'C', 'D'],
         answerCount: [0, 0], // 答题情况和数量 答对--答错
-        isCollected: false // 是否已收藏
+        isCollected: false, // 是否已收藏
+        show: false, // 弹出层控制
     },
 
     //=============方法区==============
+    showPopup() {
+        this.setData({ show: true });
+    },
+
+    onClose() {
+        this.setData({ show: false });
+    },
     onClickLeft() {
         this.getPageHeight()
             // this.upSwiper(10)
