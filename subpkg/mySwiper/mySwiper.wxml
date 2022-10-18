@@ -5,23 +5,26 @@
   </view>
   <view class="page-body">
     <!-- swiper滑块区域 -->
-    <swiper class="swiper" duration="{{duration}}" current="{{swipercurrent}}" bindanimationfinish="animationfinish">
+    <swiper class="swiper" duration="{{duration}}" current="{{swiperCurrent}}" bindanimationfinish="animationfinish">
       <swiper-item class="swiper-item" wx:for="{{swiperList}}" wx:key="index">
         <!-- 问题区域 -->
         <view class="question">
-          <van-tag type="primary" id="vtag">{{ item.type === '00'? '单选题':'多选题' }}</van-tag>
-          <text user-select>{{item.question}}</text>
+          <van-tag type="primary">{{ item.type === '00'? '单选题':'多选题' }}</van-tag>
+          <text class="question-text" user-select>{{item.question}}</text>
         </view>
         <!-- 选项区域 -->
         <block wx:for="{{item.options}}" wx:key="index" wx:for-item="optionItem">
           <view wx:if="{{(item.isAnswer !== null || globalController === true) && ico[index] === item.result}}" class="option">
-            <image class="option-img" src="/static/img/正确.png" mode="widthFix" /><text style="color: #34DAA8">{{optionItem}}</text>
+            <view class="iconfont icon-dui option-img"></view>
+            <text style="color: #1989fa">{{optionItem}}</text>
           </view>
           <view wx:elif="{{item.isAnswer === true && ico[index] === item.selectOption}}" class="option">
-            <image class="option-img" src="/static/img/错误.png" mode="widthFix" /><text style="color: #ff0202">{{optionItem}}</text>
+            <view class="iconfont icon-cuo option-img"></view>
+            <text style="color: #ff6666">{{optionItem}}</text>
           </view>
           <view wx:else id="{{ico[index]}}" class="option" bindtap="onClickOption" data-item="{{item}}">
-            <image class="option-img" src="{{'/static/img/'+ico[index]+'.png'}}" mode="widthFix" /><text>{{optionItem}}</text>
+            <view class="iconfont icon-{{ico[index]}} option-img"></view>
+            <text>{{optionItem}}</text>
           </view>
         </block>
         <!-- 附图区域 -->
@@ -34,10 +37,8 @@
         </view>
         <!-- 解析区域 -->
         <view class="analysis" wx:if="{{item.analysisController === true || globalController === true}}">
-          <view style="font-weight: bold;">试题解析</view>
-          <text user-select="{{true}}">
-            {{item.analysis}}
-          </text>
+          <view class="analysis-title" style="font-weight: bold;">试题解析</view>
+          <text class="analysis-text">{{item.analysis}}</text>
         </view>
       </swiper-item>
     </swiper>

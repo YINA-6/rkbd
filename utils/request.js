@@ -21,12 +21,13 @@
  * */
 import config from './config'
 export default (url, data = {}, method = 'GET') => {
-    // 请求数据前提示加载信息
-    wx.showLoading({
-        title: '数据加载中...',
-    })
+
     return new Promise((resolve, reject) => {
-        // 1. new Promise初始化promise实例的状态为pending
+        // 请求数据前提示加载信息
+        wx.showLoading({
+                title: '数据加载中...',
+            })
+            // 1. new Promise初始化promise实例的状态为pending
         wx.request({
             url: config.host + url,
             data,
@@ -46,7 +47,10 @@ export default (url, data = {}, method = 'GET') => {
                 resolve(res.data); // resolve修改promise的状态为成功状态resolved
             },
             fail: (err) => {
-                console.log('请求失败: ', err);
+                wx.showToast({
+                    title: '数据请求失败',
+                    icon: 'error'
+                })
                 reject(err); // reject修改promise的状态为失败状态 rejected
             },
             complete: (res) => {

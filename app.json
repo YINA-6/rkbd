@@ -3,9 +3,6 @@
         "pages/index/index",
         "pages/mine/mine",
         "pages/demo/demo"
-
-
-
     ],
     "window": {
         "backgroundTextStyle": "light",
