@@ -1,5 +1,5 @@
 <!-- 选项卡模块 -->
-<button bindtap="showPopup">弹出层</button>
+<button bindtap="showPopup" style="pointer-events: none;">弹出层</button>
 <!-- 弹出层区域 -->
 <van-popup show="{{ show }}" position="bottom" custom-style="height: 75%;" bind:close="onClose">
 
@@ -26,14 +26,12 @@
     </block>
   </view>
 </van-popup>
+<van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 16px;">
+  请回答第二个空
+</van-divider>
 
 
 <van-grid clickable gutter="{{ 10 }}" column-num="2">
-  <van-grid-item wx:for="{{ 16 }}" 
-  icon="column" 
-  link-type="navigateTo"
-  url="/subpkg/swiper/index?year=2017&order=0"
-  text="Navigate 跳转" 
-  wx:key="index">
+  <van-grid-item wx:for="{{ 16 }}" icon="column" link-type="navigateTo" url="/subpkg/swiper/index?year=2017&order=0" text="Navigate 跳转" wx:key="index">
   </van-grid-item>
 </van-grid>

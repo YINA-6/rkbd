@@ -18,6 +18,8 @@ Page({
         answerCount: [0, 0], // 答题情况和数量 答对--答错
         // isCollected: false, // 是否已收藏 添加到item里
         show: false, // 弹出层控制
+        disableOptionLt4: false, // 禁用前四个选项
+        disableOptionGt4: false, // 禁用后四个选项
 
     },
 
@@ -51,41 +53,121 @@ Page({
         })
     },
     onClickOption(e) {
+        let optionIndex = e.currentTarget.dataset.index
+        let id = e.currentTarget.id
         let item = e.currentTarget.dataset.item // 副本，用作临时修改
-            // 记录已选选项
-        item.selectOption = e.currentTarget.id
-            // 点击选项后，无论对错显示解析
-        item.analysisController = true
-        if (e.currentTarget.id === item.result) {
-            console.log("@@ 答对了")
-            item.isAnswer = true
-            this.data.answerCount[0]++ // 正确数量++
-                // 最后把修改后的item写回list，用于永久存储
-                this.data.dataList[this.data.currentIndex] = item
-                // 最后把修改后的item写回swiperList，用于界面更新
-            this.data.swiperList[this.data.swiperCurrent] = item
-                // 自动下一题
-            this.data.currentIndex++
-                this.upSwiper(this.data.currentIndex)
-        } else {
-            console.log("@@ 答错了")
-            item.isAnswer = true
-            item.selectOption = e.currentTarget.id
-                // 最后把修改后的item写回list，用于永久存储
+        let isNext = false
+        let dataListIndex = this.data.currentIndex
+
+        console.log('clickIndex', optionIndex);
+        // 第一空的点击处理逻辑
+        if (optionIndex < 4) {
+            //  判断是否已作答
+            if (item.selectOption[0] != null) {
+                return
+            }
+            item.selectOption[0] = id
+            if (id == item.result[0]) {
+                console.log('@@第一空答对了')
+                item.isRight[0] = true
+                this.data.answerCount[0]++ // 正确数量++
+
+            } else {
+                console.log('@@第一空答错了')
+                item.isRight[0] = false
+                this.data.answerCount[1]++ // 错误数量++
+            }
+
+            // 处理单选题
+            if (item.result.length == 1) {
+                item.analysisController = true // 默认开启解析
+                if (item.isRight[0] === true) {
+                    isNext = true
+                    dataListIndex++ // 下一题
+                }
+            }
+
+            // 最后把修改后的item写回list，用于永久存储
             this.data.dataList[this.data.currentIndex] = item
                 // 最后把修改后的item写回swiperList，用于界面更新
             this.data.swiperList[this.data.swiperCurrent] = item
-            this.data.answerCount[1]++ // 错误数量++
-                // 手动下一题
-        }
+        } else if (optionIndex >= 4 && optionIndex < 8) {
+            // 第二空的点击处理逻辑
+            // 判断是否已作答
 
+            if (item.selectOption[1] != null) {
+                return
+            }
+            item.selectOption[1] = id
+
+            if (id == item.result[1]) {
+                console.log('@@第二空答对了')
+                item.isRight[1] = true
+                this.data.answerCount[0]++ // 正确数量++
+                    if (item.isRight[0] == true && item.result.length == 2) {
+                        // 两空都答对，自动下一题
+                        dataListIndex++
+                        isNext = true
+                    }
+            } else {
+                console.log('@@第二空答错了')
+                item.isRight[1] = false
+                this.data.answerCount[1]++ // 错误数量++
+            }
+            // 最后把修改后的item写回list，用于永久存储
+            this.data.dataList[this.data.currentIndex] = item
+                // 最后把修改后的item写回swiperList，用于界面更新
+            this.data.swiperList[this.data.swiperCurrent] = item
+
+        } else {
+            // 第三空的点击处理逻辑
+            // 判断是否已作答
+            if (item.selectOption[2] != null) {
+                return
+            }
+            item.selectOption[2] = id
+
+            if (id == item.result[2]) {
+                console.log('@@第三空答对了')
+                item.isRight[2] = true
+                this.data.answerCount[0]++ // 正确数量++
+                    if (item.isRight[0] == true && item.isRight[1] == true && item.result.length == 3) {
+                        // 三空都答对，自动下一题
+                        dataListIndex++
+                        isNext = true
+                    }
+            } else {
+                console.log('@@第三空答错了')
+                item.isRight[2] = false
+                this.data.answerCount[1]++ // 错误数量++
+            }
+
+            // 最后把修改后的item写回list，用于永久存储
+            this.data.dataList[this.data.currentIndex] = item
+                // 最后把修改后的item写回swiperList，用于界面更新
+            this.data.swiperList[this.data.swiperCurrent] = item
+
+        }
+        // 全局判断解析显示
+        if (item.result.length == 1 && item.selectOption[0] != null) {
+            item.analysisController = true
+        } else if (item.result.length == 2 && item.selectOption[0] != null && item.selectOption[1] != null) {
+            item.analysisController = true
+        } else if (item.result.length == 3 && item.selectOption[0] != null && item.selectOption[1] != null && item.selectOption[2] != null) {
+            item.analysisController = true
+        }
         // 更新数据
         this.setData({
             dataList: this.data.dataList, // 覆盖数据
             swiperList: this.data.swiperList, // 覆盖数据
             answerCount: this.data.answerCount, // 触发视图层更新
-            currentIndex: this.data.currentIndex // 触发视图层更新 
+            currentIndex: this.data.currentIndex, // 触发视图层更新 
         })
+
+
+        if (isNext === true) {
+            this.upSwiper(dataListIndex)
+        }
     },
     // 收藏点击事件
     onClickCollect() {
@@ -134,24 +216,37 @@ Page({
             duration: 0
         })
 
-        // current 和 list要同时更新，不然数据会闪
+        // current 和 list要同时更新，不然页面会闪
         this.setData({
             swiperCurrent: current,
             recordCurrent: current,
             duration: 300,
             swiperList: list,
         })
-    },
-    getPageHeight() {
-        let totalHeight = 0
-        wx.createSelectorQuery().selectAll('#vtag').boundingClientRect().exec(res => {
-            console.log(res) // 这里获取了多个重复数组，待解决
-                // res[0].forEach(x => {
-                //     totalHeight += x.height
-                // })
-        })
+
 
     },
+    // 获取节点高度 性能不行
+    // async getPageHeight(tagList) {
+    //     let totalHeight = 170
+    //     tagList.forEach(x => {
+    //         let tag = '#active-swiper-item > ' + x
+    //         wx.createSelectorQuery().selectAll(tag).boundingClientRect().exec(res => {
+    //             if (res[0].length != 0) {
+    //                 console.log(tag, res);
+    //                 totalHeight += res[0][0].height;
+    //             }
+    //         })
+    //     })
+    //     setTimeout(() => {
+    //         console.log('totalHeight', totalHeight)
+    //         this.setData({ totalHeight })
+    //     }, 500)
+
+
+
+
+    // },
 
 
     /**
@@ -173,10 +268,12 @@ Page({
             })
             // 清洗options字符串数组"
         this.data.dataList.forEach(x => {
-                x.options = x.options.split(','),
-                    x.isAnswer = null, // 是否做出了选择 
-                    x.selectOption = '', // 选择的选项 
+                x.options = x.options.split(','), // 处理选项
+                    x.result = x.result.split(',') // 处理答案
+                x.isRight = [], //  兼容多选题
+                    x.selectOption = [], // 兼容多选题
                     x.analysisController = false // 是否显示解析
+
             })
             // 初始化数据
         console.log('@@onLoad数据已挂载', this.data.dataList)

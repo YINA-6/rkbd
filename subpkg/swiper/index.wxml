@@ -5,40 +5,93 @@
   </view>
   <view class="page-body">
     <!-- swiper滑块区域 -->
-    <swiper class="swiper" duration="{{duration}}" current="{{swiperCurrent}}" bindanimationfinish="animationfinish">
-      <swiper-item class="swiper-item" wx:for="{{swiperList}}" wx:key="index">
+    <swiper  class="swiper" duration="{{duration}}" current="{{swiperCurrent}}" bindanimationfinish="animationfinish">
+      <swiper-item class="swiper-item" wx:for="{{swiperList}}" wx:key="index" id="{{index == swiperCurrent ?'active-swiper-item':'swiper-item'}}">
         <!-- 问题区域 -->
-        <view class="question">
+        <view class="question" id='question'>
           <van-tag type="primary">{{ item.type === '00'? '单选题':'多选题' }}</van-tag>
           <text class="question-text" user-select>{{item.question}}</text>
         </view>
-        <!-- 选项区域 -->
-        <block wx:for="{{item.options}}" wx:key="index" wx:for-item="optionItem">
-          <view wx:if="{{(item.isAnswer !== null || globalController === true) && ico[index] === item.result}}" class="option">
-            <view class="iconfont icon-dui option-img"></view>
-            <text style="color: #1989fa">{{optionItem}}</text>
-          </view>
-          <view wx:elif="{{item.isAnswer === true && ico[index] === item.selectOption}}" class="option">
-            <view class="iconfont icon-cuo option-img"></view>
-            <text style="color: #ff6666">{{optionItem}}</text>
-          </view>
-          <view wx:else id="{{ico[index]}}" class="option" bindtap="onClickOption" data-item="{{item}}">
-            <view class="iconfont icon-{{ico[index]}} option-img"></view>
-            <text>{{optionItem}}</text>
-          </view>
-        </block>
         <!-- 附图区域 -->
-        <view class="photo" wx:if="{{item.photo !== ''}}">
-          <image class="photo-img" src="{{'/static/img/'+item.photo+'.png'}}" mode="widthFix"></image>
+        <view id='photo' class="photo" wx:if="{{item.photo !== ''}}">
+          <image class="photo-img" src="{{'/static/img/'+item.photo+'.png'}}" mode="heightFix"></image>
         </view>
+        
+
+        <!-- 选题区域 -->
+        <view class="select" id="select">
+          <block wx:for="{{item.options}}" wx:key="index" wx:for-item="optionItem">
+            <view wx:if="{{index < 4}}">
+              <view wx:if="{{(item.isRight[0] === true || item.isRight[0] === false || globalController === true) && ico[index] === item.result[0]}}" class="option">
+                <view class="iconfont icon-dui option-img"></view>
+                <text style="color: #1989fa">{{optionItem}}</text>
+              </view>
+              <view wx:elif="{{item.isRight[0] === false && ico[index] === item.selectOption[0]}}" class="option">
+                <view class="iconfont icon-cuo option-img"></view>
+                <text style="color: #ff6666">{{optionItem}}</text>
+              </view>
+              <!-- 默认展示的选项样式 -->
+              <view wx:else id="{{ico[index]}}" class="option" bindtap="onClickOption" data-item="{{item}}" data-index="{{index}}">
+                <view class="iconfont icon-{{ico[index]}} option-img"></view>
+                <text>{{optionItem}}</text>
+              </view>
+            </view>
+            <!-- 分割线 -->
+            <view wx:if="{{index == 4}}">
+              <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 16px;">
+                请回答第二个空
+              </van-divider>
+            </view>
+            <!-- 第二空 -->
+            <view wx:if="{{index >= 4 && index < 8}}">
+              <view wx:if="{{(item.isRight[1] === true || item.isRight[1] === false || globalController === true) && ico[index%4] === item.result[1]}}" class="option">
+                <view class="iconfont icon-dui option-img"></view>
+                <text style="color: #1989fa">{{optionItem}}</text>
+              </view>
+              <view wx:elif="{{item.isRight[1] === false && ico[index%4] === item.selectOption[1]}}" class="option">
+                <view class="iconfont icon-cuo option-img"></view>
+                <text style="color: #ff6666">{{optionItem}}</text>
+              </view>
+              <!-- 默认展示的选项样式 -->
+              <view wx:else id="{{ico[index%4]}}" class="option" bindtap="onClickOption" data-item="{{item}}" data-index="{{index}}">
+                <view class="iconfont icon-{{ico[index%4]}} option-img"></view>
+                <text>{{optionItem}}</text>
+              </view>
+            </view>
+
+            <!-- 分割线 -->
+            <view wx:if="{{index == 8}}">
+              <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 16px;">
+                请回答第三个空
+              </van-divider>
+            </view>
+            <!-- 第三空 -->
+            <view wx:if="{{index >= 8 && index < 12}}">
+              <view wx:if="{{(item.isRight[2] === true || item.isRight[2] === false || globalController === true) && ico[index%4] === item.result[2]}}" class="option">
+                <view class="iconfont icon-dui option-img"></view>
+                <text style="color: #1989fa">{{optionItem}}</text>
+              </view>
+              <view wx:elif="{{item.isRight[2] === false && ico[index%4] === item.selectOption[2]}}" class="option">
+                <view class="iconfont icon-cuo option-img"></view>
+                <text style="color: #ff6666">{{optionItem}}</text>
+              </view>
+              <!-- 默认展示的选项样式 -->
+              <view wx:else id="{{ico[index%4]}}" class="option" bindtap="onClickOption" data-item="{{item}}" data-index="{{index}}">
+                <view class="iconfont icon-{{ico[index%4]}} option-img"></view>
+                <text>{{optionItem}}</text>
+              </view>
+            </view>
+          </block>
+        </view>
+
         <!-- 答案区域 -->
-        <view class="answer" wx:if="{{item.isAnswer === true || globalController === true}}">
+        <view class="answer" id='answer' wx:if="{{item.analysisController === true || globalController === true}}">
           <text style="font-weight: bold;">正确答案:{{item.result}}</text>
         </view>
         <!-- 解析区域 -->
-        <view class="analysis" wx:if="{{item.analysisController === true || globalController === true}}">
+        <view class="analysis" id='analysis' wx:if="{{item.analysisController === true || globalController === true}}">
           <view class="analysis-title" style="font-weight: bold;">试题解析</view>
-          <text class="analysis-text">{{item.analysis}}</text>
+          <text class="analysis-text">{{item.analysis == ''? '抱歉，此题暂无解析': item.analysis}}</text>
         </view>
       </swiper-item>
     </swiper>
@@ -65,17 +118,17 @@
     <!-- 功能区域 -->
     <view class="popup-btm">
       <view class="collect ">
-      <view wx:if="{{swiperList[swiperCurrent].isCollected}}" class="iconfont icon-shoucang-click"></view>
-      <view wx:else class="iconfont icon-shoucang"></view>
-      <text>{{swiperList[swiperCurrent].isCollected == true? '已收藏':'收藏'}}</text>
-    </view>
-    <view class="answer-box">
-      <view class="iconfont icon-succeed"></view><text style="color: #1989fa;">{{answerCount[0]}}</text>
-      <view class="iconfont icon-error"></view><text style="color: #ff6666;">{{answerCount[1]}}</text>
-    </view>
-    <view class="stide-box" bindtap="showPopup">
-      <view class="iconfont icon-jihe"></view><text>{{currentIndex+1}} / {{dataList.length}}</text>
-    </view>
+        <view wx:if="{{swiperList[swiperCurrent].isCollected}}" class="iconfont icon-shoucang-click"></view>
+        <view wx:else class="iconfont icon-shoucang"></view>
+        <text>{{swiperList[swiperCurrent].isCollected == true? '已收藏':'收藏'}}</text>
+      </view>
+      <view class="answer-box">
+        <view class="iconfont icon-succeed"></view><text style="color: #1989fa;">{{answerCount[0]}}</text>
+        <view class="iconfont icon-error"></view><text style="color: #ff6666;">{{answerCount[1]}}</text>
+      </view>
+      <view class="stide-box" bindtap="showPopup">
+        <view class="iconfont icon-jihe"></view><text>{{currentIndex+1}} / {{dataList.length}}</text>
+      </view>
     </view>
     <!-- 分割区域 -->
     <view class="line-box"></view>

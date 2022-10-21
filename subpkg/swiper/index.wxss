@@ -47,14 +47,16 @@ van-tag {
 }
 
 .photo {
+    display: flex;
     position: relative;
-    height: 290rpx;
+    justify-content: center;
+    align-items: center;
+    height: 300rpx;
 }
 
 .photo-img {
     position: absolute;
-    left: 188rpx;
-    width: 375rpx;
+    height: 100%;
 }
 
 .answer {
