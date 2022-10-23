@@ -1,45 +1,26 @@
 // pages/demo/demo.js
 import request from '../../utils/request'
-
+// import { areaList } from '../../miniprogram_npm/@vant/area-data/data';
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        yearList: [],
-        yearNameList: [],
-        year: '',
-        order: ''
-
+        isShow: false
     },
-    onClickGrid({ currentTarget }) {
-        let item = currentTarget.dataset.item
-        let year = item.substring(0, 4)
-        let order = item.substring(4, 5)
+    onChangeShow() {
         this.setData({
-            year,
-            order
+            isShow: true
         })
     },
     /**
      * 生命周期函数--监听页面加载
      */
-    async onLoad(options) {
-        let list = []
-        let data = []
-        await request('storage/yearlist').then(res => {
-            data = res.data
-            res.data.forEach(x => {
-                let order = x.substring(4, 5)
-                if (order == 0) {
-                    list.push(x.substring(0, 4) + '上半年')
-                } else {
-                    list.push(x.substring(0, 4) + '下半年')
-                }
-            })
-        })
-        this.setData({ yearNameList: list, yearList: data })
+    onLoad(options) {
+
+
+
     },
 
     /**

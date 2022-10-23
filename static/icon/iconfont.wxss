@@ -6,6 +6,7 @@
 
 .icon-bazi:before {
     content: "\e60c";
+    font-size: 50px;
 }
 
 .icon-shijuan:before {
@@ -20,6 +21,7 @@
 
 .icon-cuotiben:before {
     content: "\e6c2";
+    font-size: 50px;
 }
 
 .iconfont {

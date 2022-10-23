@@ -1,0 +1,4 @@
+<van-popup show="{{ isShow }}" position="bottom" custom-style="height: 55%;">
+  <van-area area-list="{{ areaList }}" columns-num="{{ 1 }}" title="所在省份" bind:confirm="onAreaConfirm"
+  bind:cancel="onAreaCancel"/>
+</van-popup>

@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+    "usingComponents": {
+        "my-proSeletct": "/components/provinceSelect/my-provinceSelect"
+    }
 }

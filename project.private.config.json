@@ -10,8 +10,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "subpkg/pastExam/index",
-          "pathName": "subpkg/pastExam/index",
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
           "query": "",
           "launchMode": "default",
           "scene": null

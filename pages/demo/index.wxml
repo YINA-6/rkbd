@@ -1,4 +1,4 @@
-<van-grid clickable gutter="{{ 10 }}" column-num="2">
-  <van-grid-item wx:for="{{ yearNameList.length }}" wx:key="index" icon="column" bind:click="onClickGrid" data-item="{{yearList[index]}}" link-type="navigateTo" url="/subpkg/swiper/index?year={{year}}&order={{order}}" text="{{ yearNameList[index] }}" >
-  </van-grid-item>
-</van-grid>
+<button bindtap="onChangeShow">开关</button>
+<view>{{province}}</view>
+
+<my-proSeletct isShow="{{isShow}}"></my-proSeletct>

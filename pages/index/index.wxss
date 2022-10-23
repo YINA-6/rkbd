@@ -7,7 +7,35 @@
 }
 
 .line {
-    width: 90%;
-    height: 30rpx;
+    width: 95%;
+    height: 20rpx;
     background-color: #f4f7f7;
+}
+
+.title-bar {
+    margin-top: 50rpx;
+    display: flex;
+    width: 750rpx;
+}
+
+.tname {
+    flex: 1;
+    margin-left: 20rpx;
+}
+
+.province-txt {
+    flex: 0.5;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    margin: 20rpx;
+    height: 350rpx;
+    background-color: antiquewhite;
+}
+
+.info text {
+    color: #1dacf9;
+    margin: 20rpx;
 }
