@@ -3,7 +3,7 @@
   <view class="top-mode">
     <van-nav-bar title="{{navBarTitle}}" left-text="" right-text="切换模式" left-arrow fixed safe-area-inset-top="{{false}}" bind:click-left="onClickLeft" bind:click-right="onClickRight" />
   </view>
-  <view class="page-body">
+  <view class="page-body" style="height: {{totalHeight+'px'}};">
     <!-- swiper滑块区域 -->
     <swiper  class="swiper" duration="{{duration}}" current="{{swiperCurrent}}" bindanimationfinish="animationfinish">
       <swiper-item class="swiper-item" wx:for="{{swiperList}}" wx:key="index" id="{{index == swiperCurrent ?'active-swiper-item':'swiper-item'}}">

@@ -1,4 +1,6 @@
-<!-- 提供历届真题集功能，用户可以根据年份进行刷题。 -->
-历年真题 模块
+<van-grid clickable gutter="{{ 10 }}" column-num="2">
+  <van-grid-item wx:for="{{ yearNameList.length }}" wx:key="index" icon="column" icon-color="#1989fa"  bind:click="onClickGrid" data-item="{{yearList[index]}}" link-type="navigateTo" url="/subpkg/swiper/index?year={{year}}&order={{order}}" text="{{ yearNameList[index] }}" >
+  </van-grid-item>
+</van-grid>
 
-
+<!-- badge="" 可以做收藏数量显示 -->

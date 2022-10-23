@@ -20,6 +20,8 @@ Page({
         show: false, // 弹出层控制
         disableOptionLt4: false, // 禁用前四个选项
         disableOptionGt4: false, // 禁用后四个选项
+        tagList: ['.question', '.photo', '.select', '.answer', '.analysis'],
+        totalHeight: 667
 
     },
 
@@ -38,8 +40,9 @@ Page({
     },
     // 导航栏点击事件
     onClickLeft() {
-        this.getPageHeight()
-            // this.upSwiper(10)
+        wx.navigateBack({
+            delta: 0,
+        })
 
     },
     onClickRight() {
@@ -51,6 +54,7 @@ Page({
             globalController: !this.data.globalController
 
         })
+        this.getPageHeight(this.data.tagList)
     },
     onClickOption(e) {
         let optionIndex = e.currentTarget.dataset.index
@@ -163,7 +167,7 @@ Page({
             answerCount: this.data.answerCount, // 触发视图层更新
             currentIndex: this.data.currentIndex, // 触发视图层更新 
         })
-
+        this.getPageHeight(this.data.tagList)
 
         if (isNext === true) {
             this.upSwiper(dataListIndex)
@@ -223,61 +227,77 @@ Page({
             duration: 300,
             swiperList: list,
         })
+        this.getPageHeight(this.data.tagList)
+
+    },
+    // 获取节点高度 页面加载有闪烁
+    getPageHeight(tagList) {
+        let totalHeight = 170
+        tagList.forEach(x => {
+            let tag = '#active-swiper-item > ' + x
+            wx.createSelectorQuery().selectAll(tag).boundingClientRect().exec(res => {
+                if (res[0].length != 0) {
+                    totalHeight += res[0][0].height;
+                }
+            })
+        })
+        setTimeout(() => {
+            this.setData({ totalHeight })
+        }, 500)
+
+
 
 
     },
-    // 获取节点高度 性能不行
-    // async getPageHeight(tagList) {
-    //     let totalHeight = 170
-    //     tagList.forEach(x => {
-    //         let tag = '#active-swiper-item > ' + x
-    //         wx.createSelectorQuery().selectAll(tag).boundingClientRect().exec(res => {
-    //             if (res[0].length != 0) {
-    //                 console.log(tag, res);
-    //                 totalHeight += res[0][0].height;
-    //             }
-    //         })
-    //     })
-    //     setTimeout(() => {
-    //         console.log('totalHeight', totalHeight)
-    //         this.setData({ totalHeight })
-    //     }, 500)
-
-
-
-
-    // },
 
 
     /**
      * 生命周期函数--监听页面加载
      */
     async onLoad(options) {
-        //获取前置页面发来的参数，向服务器请求数据，存储到dataList
-        // 0.优先加载本地数据
-
-        // 1.获取传参
+        console.log(options)
+            // 1.获取传参
         const year = options.year
         const order = options.order
-        const url = '/storage/' + year + '/' + order
-            // 2.请求服务器获取数据 
-        await request(url).then(res => {
+        const key = year + order
+            // 0.优先加载本地数据
+        try {
+            var value = wx.getStorageSync(key)
+            if (value) {
+                // Do something with return value
+                console.log('已获取本地数据')
                 this.setData({
-                    dataList: res.data // 这是要存储的数据
+                    dataList: JSON.parse(value) // 这是要存储的数据
                 })
-            })
-            // 清洗options字符串数组"
-        this.data.dataList.forEach(x => {
-                x.options = x.options.split(','), // 处理选项
-                    x.result = x.result.split(',') // 处理答案
-                x.isRight = [], //  兼容多选题
-                    x.selectOption = [], // 兼容多选题
-                    x.analysisController = false // 是否显示解析
+            } else {
+                const url = 'storage/' + year + '/' + order
+                    // 2.请求服务器获取数据 
+                await request(url).then(res => {
+                        console.log('已获取网络数据')
+                        this.setData({
+                            dataList: res.data // 这是要存储的数据
+                        })
+                    })
+                    // 清洗options字符串数组"
+                this.data.dataList.forEach(x => {
+                        x.options = x.options.split(','), // 处理选项
+                            x.result = x.result.split(',') // 处理答案
+                        x.isRight = [], //  兼容多选题
+                            x.selectOption = [], // 兼容多选题
+                            x.analysisController = false // 是否显示解析
 
-            })
-            // 初始化数据
-        console.log('@@onLoad数据已挂载', this.data.dataList)
-            // 加载索引页
+                    })
+                    // 存储数据
+                wx.setStorage({
+                    key: key,
+                    data: JSON.stringify(this.data.dataList)
+                })
+            }
+        } catch (e) {
+            // Do something when catch error
+            console.log(e)
+        }
+        // 加载索引页
         this.upSwiper(0)
     },
 

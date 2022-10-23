@@ -1,1 +1,13 @@
 /* pages/index/index.wxss */
+
+.ljzt {
+    width: 65px;
+    background-color: aqua;
+    border-radius: 100%;
+}
+
+.line {
+    width: 90%;
+    height: 30rpx;
+    background-color: #f4f7f7;
+}

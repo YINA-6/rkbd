@@ -1,6 +1,19 @@
-首页
-<view class="btn-area">
-  <navigator url="/subpkg/pastExam/pastExam" hover-class="navigator-hover">
-    《历年真题》
-  </navigator>
+<view class="container">
+<view class="main-btn"></view>
+<!-- 功能区域 -->
+  <view class="ljzt" id="ljzt" bindtap="onClickBtn">
+    <i class="iconfont icon-shijuan"></i><text>历届真题</text>
+  </view>
+  <view class="ljzt" id="sjlx" bindtap="onClickBtn">
+    <i class="iconfont icon-suiji"></i><text>随机练习</text>
+  </view>
+  <view class="ljzt" id="zxlx" bindtap="onClickBtn">
+    <i class="iconfont icon-bazi"></i><text>专项练习</text>
+  </view>
+
+  <view class="line"></view>
+  <!-- 公告栏区域 -->
+  <view class="notice-board">
+  
+  </view>
 </view>

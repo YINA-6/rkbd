@@ -1,28 +1,44 @@
-// pages/pastExam/pastExam.js
 import request from '../../utils/request'
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        msg: 'hello world',
-        dataList: []
+        yearList: [],
+        yearNameList: [],
+        year: '',
+        order: ''
+
     },
-
-
+    onClickGrid({ currentTarget }) {
+        let item = currentTarget.dataset.item
+        let year = item.substring(0, 4)
+        let order = item.substring(4, 5)
+        this.setData({
+            year,
+            order
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad(options) {
-        // 请求数据并存储
-        // request("/storage/2017/1").then(res => {
-        //     console.log('@@页面请求数据-dataList', res.data)
-        //     this.setData({
-        //         dataList: res.data // 这是我要传递的数据
-        //     })
-        // })
-
+    async onLoad(options) {
+        let list = []
+        let data = []
+        await request('storage/yearlist').then(res => {
+            data = res.data
+            res.data.forEach(x => {
+                let order = x.substring(4, 5)
+                if (order == 0) {
+                    list.push(x.substring(0, 4) + '上半年')
+                } else {
+                    list.push(x.substring(0, 4) + '下半年')
+                }
+            })
+        })
+        this.setData({ yearNameList: list, yearList: data })
     },
 
     /**
