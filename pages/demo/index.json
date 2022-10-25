@@ -1,5 +1,6 @@
 {
     "usingComponents": {
-        "my-proSeletct": "/components/provinceSelect/my-provinceSelect"
+        "my-proSeletct": "/components/provinceSelect/my-provinceSelect",
+        "my-swiper": "/components/swiper/my-swiper"
     }
 }

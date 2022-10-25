@@ -1,5 +1,5 @@
 <van-grid clickable gutter="{{ 10 }}" column-num="2">
-  <van-grid-item wx:for="{{ yearNameList.length }}" wx:key="index" icon="column" icon-color="#1989fa"  bind:click="onClickGrid" data-item="{{yearList[index]}}" link-type="navigateTo" url="/subpkg/swiper/index?year={{year}}&order={{order}}" text="{{ yearNameList[index] }}" >
+  <van-grid-item wx:for="{{ yearNameList.length }}" wx:key="index" icon="column" icon-color="#1989fa"  bind:click="onClickGrid" data-item="{{yearList[index]}}" link-type="navigateTo" url="/subpkg/swiper/index?year={{year}}&order={{order}}&type=ljzt" text="{{ yearNameList[index] }}" >
   </van-grid-item>
 </van-grid>
 

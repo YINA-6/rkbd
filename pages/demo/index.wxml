@@ -1,4 +1,3 @@
-<button bindtap="onChangeShow">开关</button>
-<view>{{province}}</view>
 
-<my-proSeletct isShow="{{isShow}}"></my-proSeletct>
+  <my-swiper id="my-swiper" dataList="{{dataList}}" ></my-swiper>
+

@@ -1,0 +1,10 @@
+/* subpkg/randomExam/index.wxss */
+
+.container text {
+    margin: 20rpx;
+}
+
+.btn-box {
+    display: flex;
+    flex-direction: row;
+}

@@ -1,0 +1,181 @@
+.top-mode {
+    width: 100%;
+    height: 92rpx;
+}
+
+.page-body {
+    width: 100%;
+    height: 1334rpx;
+    font-size: 32rpx;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-item {
+    height: 100%;
+    width: 100%;
+}
+
+.question {
+    position: relative;
+    margin: 10rpx 10rpx;
+}
+
+van-tag {
+    position: absolute;
+}
+
+.question-text {
+    text-indent: 3rem;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-top: 20rpx;
+}
+
+.option-img {
+    width: 70rpx;
+    margin: 0 10rpx;
+    background-color: #fff;
+    border-radius: 100%;
+    box-shadow: 5rpx 5rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.photo {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 300rpx;
+}
+
+.photo-img {
+    position: absolute;
+    height: 100%;
+}
+
+.answer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60rpx;
+    margin: 64rpx 30rpx;
+    background-color: #f3f6f8;
+}
+
+.analysis-title::before {
+    content: ' ';
+    display: block;
+    left: 10rpx;
+    width: 8rpx;
+    height: 32rpx;
+    background-color: #1989fa;
+    position: absolute;
+}
+
+.analysis-title {
+    margin-top: 100rpx;
+    padding-left: 30rpx;
+}
+
+.analysis-text {
+    text-indent: 2rem;
+    margin-top: 50rpx;
+    padding-left: 20rpx;
+}
+
+.btm {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100rpx;
+    border-top: 1px solid #f3f6f8;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* 底部功能新增样式 */
+
+.popup-btm {
+    width: 100%;
+    height: 100rpx;
+    border-bottom: 5rpx solid #f3f6f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collect {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.collect text {
+    margin-left: 15rpx;
+    margin-top: 13rpx;
+}
+
+.answer-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.answer-box text {
+    margin-right: 20rpx;
+    margin-top: 13rpx;
+    margin-left: 4rpx;
+}
+
+.stide-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.stide-box text {
+    margin-top: 13rpx;
+    margin-left: 15rpx;
+}
+
+.line-box {
+    width: 100%;
+    height: 100rpx;
+    background-color: #f3f6f8;
+}
+
+.circle-box {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 10rpx;
+    margin-top: 10rpx;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #dcf2fc;
+    border-radius: 50%;
+    height: 100rpx;
+    width: 100rpx;
+    margin: 10rpx;
+}

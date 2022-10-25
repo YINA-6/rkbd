@@ -177,7 +177,7 @@ Page({
     onClickCollect() {
         console.log("click tap")
             // 更新修改后的item
-        this.data.swiperList[this.data.swiperCurrent].isCollected = true // 修改页面item
+        this.data.swiperList[this.data.swiperCurrent].isCollected = !this.data.swiperList[this.data.swiperCurrent].isCollected // 修改页面item
         this.data.dataList[this.data.currentIndex] = this.data.swiperList[this.data.swiperCurrent] // 更新存储
         this.setData({
             swiperList: this.data.swiperList, // 覆盖数据
@@ -249,20 +249,14 @@ Page({
 
 
     },
-
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    async onLoad(options) {
-        console.log(options)
-            // 1.获取传参
-        const year = options.year
-        const order = options.order
-        const key = year + order
-            // 0.优先加载本地数据
+    async getANDSetData(url, key) {
+        // 0.优先加载本地数据
+        console.log(url, key)
         try {
             var value = wx.getStorageSync(key)
+            if (key == 'random') {
+                value = false
+            }
             if (value) {
                 // Do something with return value
                 console.log('已获取本地数据')
@@ -270,8 +264,7 @@ Page({
                     dataList: JSON.parse(value) // 这是要存储的数据
                 })
             } else {
-                const url = 'storage/' + year + '/' + order
-                    // 2.请求服务器获取数据 
+                // 2.请求服务器获取数据 
                 await request(url).then(res => {
                         console.log('已获取网络数据')
                         this.setData({
@@ -288,6 +281,7 @@ Page({
 
                     })
                     // 存储数据
+
                 wx.setStorage({
                     key: key,
                     data: JSON.stringify(this.data.dataList)
@@ -299,6 +293,28 @@ Page({
         }
         // 加载索引页
         this.upSwiper(0)
+    },
+
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    async onLoad(options) {
+        console.log(options)
+        if (options.type == 'lnzt') {
+            // 1.获取传参
+            const year = options.year
+            const order = options.order
+            const key = (year + order).toString()
+            const url = 'storage/' + year + '/' + order
+            this.getANDSetData(url, key)
+        } else if (options.type == 'sjlx') {
+            const number = options.number
+            const key = 'random'
+            const url = 'storage/random/' + number
+            this.getANDSetData(url, key)
+        }
+
+
     },
 
     /**

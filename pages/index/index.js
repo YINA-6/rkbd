@@ -6,7 +6,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        indexList: [],
         isShow: false,
         provinceInfo: []
     },
@@ -16,7 +15,9 @@ Page({
                 url: '/subpkg/pastExam/index',
             })
         } else if (currentTarget.id === 'sjlx') {
-            console.log('navigateTo sjlx')
+            wx.navigateTo({
+                url: '/subpkg/randomExam/index',
+            })
         } else if (currentTarget.id === 'zxlx') {
             console.log('navigateTo zxlx')
         } else if (currentTarget.id === 'cuoti') {
@@ -31,6 +32,7 @@ Page({
         let id = detail.province[0]
         await request('provinces/' + id).then(res => {
             this.setData({ provinceInfo: res.data, isShow: detail.isShow })
+            wx.setStorageSync('provinceInfo', res.data) // 本地存储
         })
 
 
@@ -39,10 +41,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const alphabet = Array.from(new Array(26), (ele, index) => {
-            return String.fromCharCode(65 + index);
-        })
-        this.setData({ indexList: alphabet })
+        // 加载省市信息
+        let data = wx.getStorageSync('provinceInfo')
+        if (data) {
+            this.setData({ provinceInfo: data })
+        }
 
     },
 

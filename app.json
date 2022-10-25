@@ -3,7 +3,6 @@
         "pages/demo/index",
         "pages/index/index",
         "pages/mine/index"
-
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -27,7 +26,8 @@
         "root": "subpkg",
         "pages": [
             "pastExam/index",
-            "swiper/index"
+            "swiper/index",
+            "randomExam/index"
         ]
     }],
     "sitemapLocation": "sitemap.json",
@@ -41,6 +41,7 @@
         "van-row": "@vant/weapp/row/index",
         "van-col": "@vant/weapp/col/index",
         "van-divider": "@vant/weapp/divider/index",
-        "van-area": "@vant/weapp/area/index"
+        "van-area": "@vant/weapp/area/index",
+        "van-slider": "@vant/weapp/slider/index"
     }
 }
