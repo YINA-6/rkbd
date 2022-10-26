@@ -10,7 +10,7 @@ Page({
         swiperList: [], //swiper数据 固定3个
         navBarTitle: '刷题模式', // 导航栏标题
         globalController: false, // 全局控制变量，由navBar控制
-        currentIndex: 0, //dataList的index
+        currentIndex: 0, //dataList当前的index，还可以用于页面恢复?待完成
         swiperCurrent: 0, //current="{{swipercurrent}} 第一次加载为0，其他时间为1
         recordCurrent: 0, //swiper上次的index 之后保持为1
         duration: 300, //动画时常
@@ -21,7 +21,8 @@ Page({
         disableOptionLt4: false, // 禁用前四个选项
         disableOptionGt4: false, // 禁用后四个选项
         tagList: ['.question', '.photo', '.select', '.answer', '.analysis'],
-        totalHeight: 667
+        totalHeight: 667,
+        storageKey: '' // 本地存储的key
 
     },
 
@@ -244,17 +245,19 @@ Page({
         setTimeout(() => {
             this.setData({ totalHeight })
         }, 500)
-
-
-
-
     },
-    async getANDSetData(url, key) {
+    setStorage(data) {
+        wx.setStorage({
+            key: this.data.storageKey,
+            data: JSON.stringify(data)
+        })
+    },
+    async getANDSetData(url) {
         // 0.优先加载本地数据
-        console.log(url, key)
+        console.log(url)
         try {
-            var value = wx.getStorageSync(key)
-            if (key == 'random') {
+            var value = wx.getStorageSync(this.data.storageKey)
+            if (this.data.storageKey == 'random') {
                 value = false
             }
             if (value) {
@@ -281,11 +284,7 @@ Page({
 
                     })
                     // 存储数据
-
-                wx.setStorage({
-                    key: key,
-                    data: JSON.stringify(this.data.dataList)
-                })
+                this.setStorage(this.data.dataList)
             }
         } catch (e) {
             // Do something when catch error
@@ -300,18 +299,24 @@ Page({
      */
     async onLoad(options) {
         console.log(options)
-        if (options.type == 'lnzt') {
+        const type = options.type
+        if (type == 'lnzt') {
             // 1.获取传参
             const year = options.year
             const order = options.order
-            const key = (year + order).toString()
+            this.data.storageKey = (year + order).toString()
             const url = 'storage/' + year + '/' + order
-            this.getANDSetData(url, key)
-        } else if (options.type == 'sjlx') {
+            this.getANDSetData(url)
+        } else if (type == 'sjlx') {
             const number = options.number
-            const key = 'random'
+            this.data.storageKey = 'random'
             const url = 'storage/random/' + number
-            this.getANDSetData(url, key)
+            this.getANDSetData(url)
+        } else if (type == 'zxlx') {
+            const id = options.cid
+            this.data.storageKey = 'categoryId' + id
+            const url = 'storage/cid/' + id
+            this.getANDSetData(url)
         }
 
 
@@ -328,6 +333,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
+        // 加载上一次退出的页面？
 
     },
 
@@ -335,14 +341,17 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        // 更新本地存储
+        console.log('页面隐藏，更新本地存储')
+        this.setStorage(this.data.dataList)
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
-
+        console.log('页面卸载，更新本地存储')
+        this.setStorage(this.data.dataList)
     },
 
     /**

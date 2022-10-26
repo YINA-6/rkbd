@@ -5,6 +5,6 @@ App({
     },
     globalData: {
         // 全局数据
-        collection: [] // 收藏集，存储题目id
+        collection: [], // 收藏集，存储题目id
     }
 })

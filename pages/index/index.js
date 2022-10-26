@@ -19,7 +19,10 @@ Page({
                 url: '/subpkg/randomExam/index',
             })
         } else if (currentTarget.id === 'zxlx') {
-            console.log('navigateTo zxlx')
+            wx.navigateTo({
+                url: '/subpkg/specialExam/index',
+            })
+            console.log('请先登陆，否则您的做题记录可能会丢失')
         } else if (currentTarget.id === 'cuoti') {
             console.log('navigateTo cuoti')
         }

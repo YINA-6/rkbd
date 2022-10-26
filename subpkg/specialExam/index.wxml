@@ -1,0 +1,13 @@
+<van-collapse accordion value="{{ activeName }}" bind:change="onChange">
+  <block wx:for="{{dataList}}" wx:key="index">
+    <van-collapse-item icon title="{{item.categoryName}}" name="{{index}}">
+      <view class="spread-box">
+        <view class="s1">
+          <text style="font-size: 14px;">做题进度 {{percentageList[index].yesNumber}}/{{item.number}}</text>
+          <van-progress class="progress" percentage="{{percentageList[index].percentage}}" />
+        </view>
+        <van-button class="s2" round size="small" type="info" bindtap="onClickStart" data-item="{{item}}">练习</van-button>
+      </view>
+    </van-collapse-item>
+  </block>
+</van-collapse>

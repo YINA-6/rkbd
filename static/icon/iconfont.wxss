@@ -1,7 +1,17 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 3711528 */
-    src: url('//at.alicdn.com/t/c/font_3711528_w8eu838b0u.woff2?t=1666443566276') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_w8eu838b0u.woff?t=1666443566276') format('woff'), url('//at.alicdn.com/t/c/font_3711528_w8eu838b0u.ttf?t=1666443566276') format('truetype');
+    src: url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.woff2?t=1666686204370') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.woff?t=1666686204370') format('woff'), url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.ttf?t=1666686204370') format('truetype');
+}
+
+.icon-jiahao:before {
+    content: "\e604";
+    color: #1dacf9;
+}
+
+.icon-jianhao:before {
+    content: "\e605";
+    color: #1dacf9;
 }
 
 .icon-bazi:before {
