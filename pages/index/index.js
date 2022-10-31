@@ -24,7 +24,9 @@ Page({
             })
             console.log('请先登陆，否则您的做题记录可能会丢失')
         } else if (currentTarget.id === 'cuoti') {
-            console.log('navigateTo cuoti')
+            wx.navigateTo({
+                url: '/subpkg/errorList/index',
+            })
         }
     },
     onChangeShow() {

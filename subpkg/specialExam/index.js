@@ -29,7 +29,7 @@ Page({
      */
     async onLoad(options) {
         // 获取分类信息
-        await request('category').then(res => {
+        await request('category/dto').then(res => {
             this.setData({ dataList: res.data })
         })
 

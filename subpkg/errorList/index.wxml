@@ -1,0 +1,54 @@
+<view class="container">
+
+  <!-- 顶部导航栏区域 -->
+  <view class="top-mode">
+    <view class="cuoti-book" bindtap="onClickCuoti" style="{{swiperCurrent == 0 ? 'font-weight: bolder;':'' }}">错题本</view>
+    <view class="collection-book" bindtap="onClickCollect" style="{{swiperCurrent == 1 ? 'font-weight: bolder;':'' }}">收藏题目</view>
+  </view>
+
+  <!-- 滑块区域 -->
+  <swiper current="{{swiperCurrent}}" bindchange="changeItem" style="width: 100%; height: 617px;">
+
+    <!-- 错题本-模块区域 -->
+    <swiper-item item-id="cuoti">
+      <block wx:for="{{categoryList}}" wx:key="index">
+        <view class="box" wx:if="{{item.errors.length > 0}}">
+          <view class="left">{{item.categoryName}}</view>
+          <view class="right" bindtap="onClickStart">
+            <view style="color: #1989fa;">{{item.errors.length}}</view>
+            <view class="iconfont icon-jiantou"></view>
+          </view>
+        </view>
+
+      </block>
+      <!-- 清除错题按钮 -->
+      <van-empty wx:if="{{errorIsEmpty}}" description="暂无错题，继续保持~" />
+      <van-button wx:else round color="linear-gradient(to right, #00dfe5, #0087fa)" size="large" bindtap="onClickErrorBtn">清除我的错题</van-button>
+      <van-dialog id="van-dialog1" 
+      show="{{errorDialogShow}}" title="警告"  message="是否清除全部错题" show-cancel-button="{{true}}"
+      bind:cancel="onCancelErrorDialog" bind:confirm="onConfirmErrorDialog"/>
+    </swiper-item>
+
+    <!-- 收藏题目-模块区域 -->
+    <swiper-item item-id="collect">
+      <block wx:for="{{categoryList}}" wx:key="index">
+        <view class="box" wx:if="{{item.collect.length > 0}}">
+          <view class="left">{{item.categoryName}}</view>
+          <view class="right" bindtap="onClickStart">
+            <view style="color: #1989fa;">{{item.collect.length}}</view>
+            <view class="iconfont icon-jiantou"></view>
+          </view>
+        </view>
+
+
+      </block>
+      <!-- 清除错题按钮 -->
+      <van-empty wx:if="{{collectIsEmpty}}" description="你收藏的题目会自动记录到这里噢~" />
+      <van-button wx:else round color="linear-gradient(to right, #00dfe5, #0087fa)" size="large" bindtap="onClickCollectBtn">清除我的收藏</van-button>
+      <van-dialog id="van-dialog2" 
+      show="{{collectDialogShow}}" title="警告"  message="是否清除全部收藏题目" show-cancel-button="{{true}}"
+      bind:cancel="onCancelCollectDialog" bind:confirm="onConfirmCollectDialog"/>
+    </swiper-item>
+  </swiper>
+
+</view>

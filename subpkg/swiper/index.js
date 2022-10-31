@@ -8,6 +8,8 @@ Page({
     data: {
         dataList: [],
         swiperList: [], //swiper数据 固定3个
+        errorList: [], // 错误题目，存储完整题目
+        collectionList: [], // 收藏题目，存储完整题目
         navBarTitle: '刷题模式', // 导航栏标题
         globalController: false, // 全局控制变量，由navBar控制
         currentIndex: 0, //dataList当前的index，还可以用于页面恢复?待完成
@@ -16,7 +18,6 @@ Page({
         duration: 300, //动画时常
         ico: ['A', 'B', 'C', 'D'],
         answerCount: [0, 0], // 答题情况和数量 答对--答错
-        // isCollected: false, // 是否已收藏 添加到item里
         show: false, // 弹出层控制
         disableOptionLt4: false, // 禁用前四个选项
         disableOptionGt4: false, // 禁用后四个选项
@@ -57,10 +58,12 @@ Page({
         })
         this.getPageHeight(this.data.tagList)
     },
+    // 点击选项的处理事件
     onClickOption(e) {
         let optionIndex = e.currentTarget.dataset.index
         let id = e.currentTarget.id
         let item = e.currentTarget.dataset.item // 副本，用作临时修改
+        let originalItem = e.currentTarget.dataset.item // 副本，用作保持给错题集
         let isNext = false
         let dataListIndex = this.data.currentIndex
 
@@ -81,6 +84,7 @@ Page({
                 console.log('@@第一空答错了')
                 item.isRight[0] = false
                 this.data.answerCount[1]++ // 错误数量++
+                    this.data.errorList.push(originalItem)
             }
 
             // 处理单选题
@@ -118,6 +122,7 @@ Page({
                 console.log('@@第二空答错了')
                 item.isRight[1] = false
                 this.data.answerCount[1]++ // 错误数量++
+                    this.data.errorList.push(originalItem)
             }
             // 最后把修改后的item写回list，用于永久存储
             this.data.dataList[this.data.currentIndex] = item
@@ -145,6 +150,7 @@ Page({
                 console.log('@@第三空答错了')
                 item.isRight[2] = false
                 this.data.answerCount[1]++ // 错误数量++
+                    this.data.errorList.push(originalItem)
             }
 
             // 最后把修改后的item写回list，用于永久存储
@@ -178,12 +184,36 @@ Page({
     onClickCollect() {
         console.log("click tap")
             // 更新修改后的item
+
         this.data.swiperList[this.data.swiperCurrent].isCollected = !this.data.swiperList[this.data.swiperCurrent].isCollected // 修改页面item
         this.data.dataList[this.data.currentIndex] = this.data.swiperList[this.data.swiperCurrent] // 更新存储
         this.setData({
             swiperList: this.data.swiperList, // 覆盖数据
             dataList: this.data.dataList, // 覆盖数据
         })
+
+        // 收藏
+        let isCollected
+        const item = this.data.swiperList[this.data.swiperCurrent]
+        if (item.isCollected == true) {
+            // 添加收藏
+            this.data.collectionList.forEach(x => {
+                if (item.qid == x.qid) {
+                    // 无需添加
+                    isCollected = true
+                    return
+                }
+            })
+            if (isCollected != true) {
+                console.log('添加收藏');
+                this.data.collectionList.push(item)
+            }
+        } else {
+            // 取消收藏
+            console.log('取消收藏')
+            this.data.collectionList.pop(item)
+        }
+
     },
     // swiper滑动触发事件
     animationfinish({ detail }) {
@@ -260,12 +290,23 @@ Page({
             if (this.data.storageKey == 'random') {
                 value = false
             }
+
             if (value) {
                 // Do something with return value
                 console.log('已获取本地数据')
                 this.setData({
-                    dataList: JSON.parse(value) // 这是要存储的数据
-                })
+                        dataList: JSON.parse(value) // 这是要存储的数据
+                    })
+                    // 错题-收藏的题特别处理
+
+                if (this.data.storageKey == 'errorList') {
+                    console.log('错题特别处理');
+                    this.data.dataList.forEach(x => {
+                        x.isRight = [], //  兼容多选题
+                            x.selectOption = [], // 兼容多选题
+                            x.analysisController = false // 是否显示解析
+                    })
+                }
             } else {
                 // 2.请求服务器获取数据 
                 await request(url).then(res => {
@@ -300,23 +341,32 @@ Page({
     async onLoad(options) {
         console.log(options)
         const type = options.type
-        if (type == 'lnzt') {
-            // 1.获取传参
+        if (type == 'ljzt') {
+            // 1.历届真题处理逻辑
             const year = options.year
             const order = options.order
             this.data.storageKey = (year + order).toString()
             const url = 'storage/' + year + '/' + order
             this.getANDSetData(url)
         } else if (type == 'sjlx') {
+            // 2.随机练习处理逻辑
             const number = options.number
             this.data.storageKey = 'random'
             const url = 'storage/random/' + number
             this.getANDSetData(url)
         } else if (type == 'zxlx') {
+            // 3.专项练习处理逻辑
             const id = options.cid
             this.data.storageKey = 'categoryId' + id
             const url = 'storage/cid/' + id
             this.getANDSetData(url)
+        } else if (type == 'ctlx') {
+            // 4.错题-收藏练习处理逻辑
+            this.data.storageKey = 'errorList'
+            this.getANDSetData(null)
+        } else {
+
+            console.log('未知type参数')
         }
 
 
@@ -344,6 +394,39 @@ Page({
         // 更新本地存储
         console.log('页面隐藏，更新本地存储')
         this.setStorage(this.data.dataList)
+
+        if (this.data.collectionList.length > 0) {
+            // 存储收藏数据
+            wx.setStorage({
+                key: 'collectionList',
+                data: JSON.stringify(this.data.collectionList)
+            })
+        }
+
+        if (this.data.errorList.length > 0) {
+            //处理错题集数据 这里要获取本地存储的错题还有当前页面的错题，进行合并
+            // 如果当前页面是错题练习，则不再进行存储
+            if (this.data.storageKey == 'errorList') {
+                return
+            }
+            let storageError = wx.getStorageSync('errorList')
+            if (storageError != '') {
+                storageError.forEach(x => {
+                    this.data.errorList.push(x)
+                })
+            }
+
+            let noDuplicateArray = this.data.errorList.filter((value, index, arr) => {
+                return arr.indexOf(value) === index
+            })
+
+            wx.setStorage({
+                key: 'errorList',
+                data: JSON.stringify(noDuplicateArray)
+            })
+        }
+
+
     },
 
     /**
@@ -352,6 +435,37 @@ Page({
     onUnload() {
         console.log('页面卸载，更新本地存储')
         this.setStorage(this.data.dataList)
+
+        if (this.data.collectionList.length > 0) {
+            // 存储收藏数据
+            wx.setStorage({
+                key: 'collectionList',
+                data: JSON.stringify(this.data.collectionList)
+            })
+        }
+
+        if (this.data.errorList.length > 0) {
+            //处理错题集数据 这里要获取本地存储的错题还有当前页面的错题，进行合并
+            // 如果当前页面是错题练习，则不再进行存储
+            if (this.data.storageKey == 'errorList') {
+                return
+            }
+            let storageError = wx.getStorageSync('errorList')
+            if (storageError != '') {
+                storageError.forEach(x => {
+                    this.data.errorList.push(x)
+                })
+            }
+
+            let noDuplicateArray = this.data.errorList.filter((value, index, arr) => {
+                return arr.indexOf(value) === index
+            })
+
+            wx.setStorage({
+                key: 'errorList',
+                data: JSON.stringify(noDuplicateArray)
+            })
+        }
     },
 
     /**

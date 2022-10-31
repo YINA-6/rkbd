@@ -1,7 +1,12 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 3711528 */
-    src: url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.woff2?t=1666686204370') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.woff?t=1666686204370') format('woff'), url('//at.alicdn.com/t/c/font_3711528_6rlenvw1q7r.ttf?t=1666686204370') format('truetype');
+    src: url('//at.alicdn.com/t/c/font_3711528_tqy42rbfxzj.woff2?t=1667032100253') format('woff2'), url('//at.alicdn.com/t/c/font_3711528_tqy42rbfxzj.woff?t=1667032100253') format('woff'), url('//at.alicdn.com/t/c/font_3711528_tqy42rbfxzj.ttf?t=1667032100253') format('truetype');
+}
+
+.icon-jiantou:before {
+    content: "\e88e";
+    font-size: 25px;
 }
 
 .icon-jiahao:before {
