@@ -1,2 +1,62 @@
-<!--pages/mine/mine.wxml-->
-<text>pages/mine/mine.wxml</text>
+<view class="container">
+  <!-- 背景装饰区域 -->
+  <view class="top-decorate"></view>
+  <!-- 用户信息区域 -->
+  <view class="box">
+    <view class="userinfo" bindtap="getUserProfile">
+      <block wx:if="{{!hasUserInfo}}">
+        <i class="iconfont icon-weidenglu"></i>
+        <view class="login-text">
+          <text class="t1" style="font-weight: bold;">微信一键登录</text>
+          <text class="t2">登录后可同步错题、收藏和练习记录噢！</text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="userinfo">
+          <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
+          <view class="login-text">
+            <text class="t1" style="font-weight: bold;">{{userInfo.nickName}}</text>
+            <text class="t2">登录后可同步错题、收藏和练习记录噢！</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+<!-- 资源模块 -->
+    <view class="resource" >
+      <view class="r1" bindtap="getAnswerData">
+        <view style="font-weight: bold ;">{{quantityAndOdds[0]}}</view>
+        <view style="font-size: small ;">累计答题数</view>
+        <view style="font-size: small;">正确率<text style="color: #1989fa; font-weight: bold ;">{{quantityAndOdds[1]}}%</text></view>
+      </view>
+      <view class="r2" bindtap="synchrodata">同步数据</view>
+      <view class="r3">PDF资源</view>
+    </view>
+
+  </view>
+
+  <view class="bottom">
+    <!-- 功能区域 -->
+    <view class="func">
+      <view class="doc-demo" >
+        <view role="button" class="doc-cell" id="feedback" bindtap="onClickNav">
+          <view class="doc-cell-title">反馈</view>
+          <i class="iconfont icon-jiantou"></i>
+        </view>
+      </view>
+      <view class="doc-demo">
+        <view role="button" class="doc-cell" id="aboutUs" bindtap="onClickNav">
+          <view class="doc-cell-title">关于我们</view>
+          <i class="iconfont icon-jiantou"></i>
+        </view>
+      </view>
+
+
+    </view>
+    <!-- 退出登陆 -->
+    <van-button wx:if="{{hasUserInfo}}"  class="exit-btn" round type="default" size="large" bindtap="exitLogin">退出登陆</van-button>
+
+  </view>
+  <!-- 引用组件 -->
+  <van-toast id="van-toast" />
+</view>

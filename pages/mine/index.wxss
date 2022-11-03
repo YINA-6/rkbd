@@ -1,1 +1,116 @@
 /* pages/mine/mine.wxss */
+
+.top-decorate {
+    width: 100%;
+    height: 150rpx;
+    background: linear-gradient(to right, #00dfe5, #0087fa);
+}
+
+.box {
+    height: 250rpx;
+    width: 95%;
+    position: absolute;
+    top: 50rpx;
+    z-index: 1;
+    background-color: #fff;
+    border-radius: 20rpx;
+    box-shadow: 3px 5px 5px #ccc;
+}
+
+.userinfo-avatar {
+    overflow: hidden;
+    width: 110rpx;
+    height: 110rpx;
+    border-radius: 50%;
+}
+
+.userinfo {
+    display: flex;
+    justify-content: center;
+    height: 100rpx;
+}
+
+.login-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10rpx;
+}
+
+.login-text .t1 {
+    font-size: 50rpx;
+}
+
+.login-text .t2 {
+    font-size: 25rpx;
+}
+
+.resource {
+    display: flex;
+    flex-direction: row;
+}
+
+.resource view {
+    display: flex;
+    flex: 1;
+    margin: 20rpx 20rpx;
+    height: 110rpx;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #fbfaf1, #f7f5e8);
+}
+
+.resource .r1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.r1 view {
+    margin: 0;
+    padding: 0;
+}
+
+.bottom {
+    position: relative;
+    height: 840rpx;
+    width: 100%;
+    background-color: #f7f8fa;
+}
+
+
+/* func */
+
+.func {
+    position: absolute;
+    top: 300rpx;
+    width: 100%;
+}
+
+.doc-demo {
+    margin: 12rpx 12rpx 0;
+    overflow: hidden;
+    border-radius: 16rpx;
+    background-color: #fff;
+}
+
+.doc-cell {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+}
+
+.doc-cell-title {
+    flex: 1;
+}
+
+.exit-btn {
+    position: absolute;
+    bottom: 10px;
+    width: 98%;
+}

@@ -1,11 +1,6 @@
-<van-collapse accordion value="{{ activeName }}" bind:change="onChange">
-  <van-collapse-item icon title="网络基础知识" name="1">
-    <view class="spread-box">
-    <view class="s1">
-      <text style="font-size: 14px;">做题进度</text>
-      <van-progress class="progress" percentage="50"/>
-    </view>
-      <van-button class="s2" round size="small" type="info">练习</van-button>
-    </view>
-  </van-collapse-item>
-</van-collapse>
+<view class="doc-demo">
+  <view role="button" class="doc-cell">
+    <view class="doc-cell-title">基础用法</view>
+    <i class="iconfont icon-jiantou"></i>
+  </view>
+</view>

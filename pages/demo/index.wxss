@@ -1,13 +1,23 @@
-.spread-box {
+.doc-demo {
+    margin: 12px 12px 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ccc;
+}
+
+.doc-cell {
+    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #ccc;
 }
 
-.s1 {
+.doc-cell-title {
     flex: 1;
-}
-
-.s2 {
-    margin-left: 10px;
 }

@@ -1,5 +1,6 @@
 // subpkg/myswiper/mySwiper.js
 import request from '../../utils/request'
+const app = getApp()
 Page({
 
     /**
@@ -23,7 +24,7 @@ Page({
         disableOptionGt4: false, // 禁用后四个选项
         tagList: ['.question', '.photo', '.select', '.answer', '.analysis'],
         totalHeight: 667,
-        storageKey: '' // 本地存储的key
+        storageKey: '', // 本地存储的key
 
     },
 
@@ -168,12 +169,18 @@ Page({
             item.analysisController = true
         }
         // 更新数据
+
         this.setData({
             dataList: this.data.dataList, // 覆盖数据
             swiperList: this.data.swiperList, // 覆盖数据
             answerCount: this.data.answerCount, // 触发视图层更新
             currentIndex: this.data.currentIndex, // 触发视图层更新 
+
         })
+
+        // 存储正确-错误数组
+
+
         this.getPageHeight(this.data.tagList)
 
         if (isNext === true) {
@@ -276,10 +283,10 @@ Page({
             this.setData({ totalHeight })
         }, 500)
     },
-    setStorage(data) {
+    defSetStorage(item) {
         wx.setStorage({
             key: this.data.storageKey,
-            data: JSON.stringify(data)
+            data: JSON.stringify(item)
         })
     },
     async getANDSetData(url) {
@@ -317,22 +324,36 @@ Page({
                     })
                     // 清洗options字符串数组"
                 this.data.dataList.forEach(x => {
-                        x.options = x.options.split(','), // 处理选项
-                            x.result = x.result.split(',') // 处理答案
-                        x.isRight = [], //  兼容多选题
-                            x.selectOption = [], // 兼容多选题
-                            x.analysisController = false // 是否显示解析
+                    x.options = x.options.split(','), // 处理选项
+                        x.result = x.result.split(',') // 处理答案
+                    x.isRight = [], //  兼容多选题
+                        x.selectOption = [], // 兼容多选题
+                        x.analysisController = false // 是否显示解析
 
-                    })
-                    // 存储数据
-                this.setStorage(this.data.dataList)
+                })
             }
         } catch (e) {
             // Do something when catch error
             console.log(e)
         }
-        // 加载索引页
-        this.upSwiper(0)
+
+        // 加载答题情况
+        if (JSON.stringify(this.data.dataList[this.data.dataList.length - 1]).indexOf('recordIndex') != -1) {
+            const append = this.data.dataList.pop()
+            console.log(append);
+            this.setData({
+                    answerCount: append.answerCount
+                })
+                // 加载上一次的索引页
+            this.upSwiper(append.recordIndex)
+        } else {
+            // 默认初始页
+            this.upSwiper(0)
+        }
+
+
+
+
     },
 
     /**
@@ -370,6 +391,7 @@ Page({
         }
 
 
+
     },
 
     /**
@@ -393,7 +415,12 @@ Page({
     onHide() {
         // 更新本地存储
         console.log('页面隐藏，更新本地存储')
-        this.setStorage(this.data.dataList)
+        let item = this.data.dataList
+        item.push({
+            recordIndex: this.data.currentIndex,
+            answerCount: this.data.answerCount
+        })
+        this.defSetStorage(item)
 
         if (this.data.collectionList.length > 0) {
             // 存储收藏数据
@@ -434,7 +461,13 @@ Page({
      */
     onUnload() {
         console.log('页面卸载，更新本地存储')
-        this.setStorage(this.data.dataList)
+        let item = this.data.dataList
+        item.push({
+            recordIndex: this.data.currentIndex,
+            answerCount: this.data.answerCount
+        })
+        this.defSetStorage(item)
+
 
         if (this.data.collectionList.length > 0) {
             // 存储收藏数据
@@ -452,7 +485,7 @@ Page({
             }
             let storageError = wx.getStorageSync('errorList')
             if (storageError != '') {
-                storageError.forEach(x => {
+                JSON.parse(storageError).forEach(x => {
                     this.data.errorList.push(x)
                 })
             }
