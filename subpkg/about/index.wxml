@@ -1,2 +1,4 @@
-<!--subpkg/about/index.wxml-->
-<text>subpkg/about/index.wxml</text>
+<view class="container">
+<text>我们的网页版本</text>
+  <text bindtap="onClickUrl">www.dyina.cn/rkzt</text>
+</view>

@@ -1,17 +1,19 @@
 // pages/mine/mine.js
 import request from "../../utils/request"
-import Toast from '@vant/weapp/toast/toast';
-const app = getApp()
 Page({
-
     /**
      * 页面的初始数据
      */
     data: {
-        userInfo: {},
+        userInfo: {}, //nickName,avatarUrl,city,province,country,gender,language
         hasUserInfo: false,
-        userSession: {},
-        quantityAndOdds: [0, 0]
+        userSession: {}, // openid,session_key
+        userSyncData: { collects: [], errors: [] }, // 存储id
+        quantityAndOdds: [0, 0], //amount, rightOdds
+        responseData: {}, // question
+        isSync: false, // 同步判断
+        updateTime: '' //用户数据更新时间
+
     },
 
     getUserProfile(e) {
@@ -28,7 +30,7 @@ Page({
         })
     },
     getUserSession() {
-        // 用户确认授权后，获取用户账号信息
+        // 用户确认授权后，获取wx用户账号信息
         wx.login({
             success: (res) => {
                 if (res.code) {
@@ -43,6 +45,7 @@ Page({
             }
         })
     },
+
     exitLogin() {
         this.setData({
             userInfo: {},
@@ -76,7 +79,8 @@ Page({
                     // Do something when catch error
                 }
                 let quantity = right + error
-                let odds = (right / quantity) * 100
+                let odds = quantity == 0 ? 0 : odds = (right / quantity) * 100
+
                 this.setData({ quantityAndOdds: [quantity, odds] })
             })
         } catch (e) {
@@ -84,19 +88,175 @@ Page({
         }
     },
     // 同步数据处理函数
-    synchrodata() {
-        if (this.data.hasUserInfo) {
-            Toast.loading({
-                message: '加载中...',
-                forbidClick: true,
-            });
-        } else {
-            Toast('请先登陆噢~');
+    async synchrodata() {
+        // ==========预处理=============
+        if (!this.data.hasUserInfo) {
+            // 警告通知
+            wx.showToast({
+                title: '请先登陆~',
+                icon: 'error',
+                mask: true,
+            })
+            return
         }
+        // 获取用户的服务器数据-并做逻辑处理
+        await this.getUserSyncInfo()
+        if (!this.data.isSync) {
+            return
+        }
+        console.log("========同步操作========");
+        let storageCollects = wx.getStorageSync('collectionList')
+        let storageErrors = wx.getStorageSync('errorList')
+
+        // 把本地要同步的题目id加入
+        if (storageCollects != '') {
+            JSON.parse(storageCollects).forEach(x => {
+                this.data.userSyncData.collects.push(x.id)
+            })
+        }
+        if (storageErrors != '') {
+            JSON.parse(storageErrors).forEach(x => {
+                this.data.userSyncData.errors.push(x.id)
+            })
+        }
+        // 清洗重复数据
+        let noDuplicatedCollects = this.data.userSyncData.collects.filter((value, index, arr) => arr.indexOf(value) === index)
+
+        let noDuplicatedErrors = this.data.userSyncData.errors.filter((value, index, arr) => arr.indexOf(value) === index)
+
+        this.data.userSyncData.collects = noDuplicatedCollects
+        this.data.userSyncData.errors = noDuplicatedErrors
+
+
+        // 更新数据
+        this.setData({ userSyncData: this.data.userSyncData })
+
+        // 以id获取题目，并存储本地
+        await this.storageOperation('collect')
+        await this.storageOperation('error')
+
+        await this.saveUserInfo()
+
+    },
+    async getUserSyncInfo() {
+        // 服务器数据请求-做同步判断
+        let isTrue = false
+        this.data.isSync = isTrue
+        await request("user/" + this.data.userSession.openid).then(res => {
+            if (res.data != null) {
+                // console.log(res.data);
+                if (res.data.collects != "") {
+                    res.data.collects.split(',').forEach(x => {
+                        this.data.userSyncData.collects.push(parseInt(x))
+                    })
+                }
+                if (res.data.errors != "") {
+                    res.data.errors.split(',').forEach(x => {
+                        this.data.userSyncData.errors.push(parseInt(x))
+                    })
+                }
+                this.data.updateTime = res.data.updateTime
+                    // 一天只同步一次数据
+                const updataTime = wx.getStorageSync('updataTime')
+                console.log("local updataTime is ", updataTime);
+                if (!updataTime) {
+                    console.log("local updataTime is empty, dont sync");
+                    isTrue = false;
+                }
+                if (updataTime.slice(0, 10) == this.data.updateTime.slice(0, 10)) {
+                    console.log("local datatime equal to sever dataTime");
+                    wx.showToast({
+                        title: '当天已经同步~',
+                        icon: 'error',
+                        mask: true,
+                    })
+                    isTrue = false;
+                }
+            } else {
+                // 如果本地也没有数据
+                if (storageCollects == '' && storageErrors == '') {
+                    // 警告通知
+                    wx.showToast({
+                        title: '暂无同步数据~',
+                        icon: 'error',
+                        mask: true,
+                    })
+                    isTrue = false;
+                }
+            }
+            // isTrue = true;
+        })
+        this.data.isSync = isTrue
+    },
+    // 上传用户数据到服务器
+    async saveUserInfo() {
+        const user = {
+                openId: this.data.userSession.openid,
+                quantityAndOdds: this.data.quantityAndOdds,
+                collects: this.data.userSyncData.collects,
+                errors: this.data.userSyncData.errors
+            }
+            // ！！！这里提交数据，数据表字段会有重复内容！！！
+        await request('user', 'POST', user).then(res => {
+            if (res.code == 200) {
+                console.log("上传成功", res);
+                wx.showToast({
+                    title: '同步成功~',
+                    icon: 'success',
+                    mask: true,
+                })
+                this.data.updateTime = res.data.updateTime
+            }
+        })
+    },
+
+    async getQuestionById(ids) {
+        if (ids == '') return
+        await request("storage/" + ids).then(res => {
+            console.log('获取题目', res);
+            this.data.responseData = res.data
+        })
+    },
+
+    async storageOperation(name) {
+        if (name == 'collect') {
+            // 以id获取题目
+            await this.getQuestionById(this.data.userSyncData.collects.toString())
+                // 存储到本地
+            console.log("存储本地");
+            wx.setStorageSync('collectionList', JSON.stringify(this.data.responseData))
+        } else if (name == 'error') {
+            // 以id获取题目
+            await this.getQuestionById(this.data.userSyncData.errors.toString())
+                // 存储到本地
+            console.log("存储本地");
+            wx.setStorageSync('errorList', JSON.stringify(this.data.responseData))
+        }
+    },
+    PDFResources() {
+        wx.showModal({
+            content: '是否将网盘链接拷贝到你的剪贴板~',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.setClipboardData({
+                        data: 'www.baidu.com',
+                    })
+                }
+            }
+        })
     },
     onClickNav({ currentTarget }) {
         console.log(currentTarget.id);
         if (currentTarget.id == 'feedback') {
+            if (!this.data.hasUserInfo) {
+                // 警告通知
+                wx.showToast({
+                    title: '请先登陆~',
+                    icon: 'error',
+                    mask: true,
+                })
+                return
+            }
             wx.navigateTo({
                 url: '/subpkg/feedback/index',
             })

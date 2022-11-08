@@ -39,8 +39,14 @@ Page({
         });
     },
     onClickStart({ currentTarget }) {
+        let type
+        if (this.data.swiperCurrent == 0) {
+            type = 'ctlx'
+        } else if (this.data.swiperCurrent == 1) {
+            type = 'sclx'
+        }
         wx.navigateTo({
-            url: '/subpkg/swiper/index?type=ctlx',
+            url: '/subpkg/swiper/index?type=' + type,
         })
     },
     onClickErrorBtn() {

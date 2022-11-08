@@ -306,9 +306,12 @@ Page({
                     })
                     // 错题-收藏的题特别处理
 
-                if (this.data.storageKey == 'errorList') {
-                    console.log('错题特别处理');
+                if (this.data.storageKey == 'errorList' || this.data.storageKey == 'collectionList') {
+                    console.log('错题-收藏 特别处理');
+                    // 清洗格式
                     this.data.dataList.forEach(x => {
+                        x.options = x.options.split(','), // 处理选项
+                            x.result = x.result.split(',') // 处理答案
                         x.isRight = [], //  兼容多选题
                             x.selectOption = [], // 兼容多选题
                             x.analysisController = false // 是否显示解析
@@ -322,7 +325,7 @@ Page({
                             dataList: res.data // 这是要存储的数据
                         })
                     })
-                    // 清洗options字符串数组"
+                    // 清洗格式
                 this.data.dataList.forEach(x => {
                     x.options = x.options.split(','), // 处理选项
                         x.result = x.result.split(',') // 处理答案
@@ -382,18 +385,40 @@ Page({
             const url = 'storage/cid/' + id
             this.getANDSetData(url)
         } else if (type == 'ctlx') {
-            // 4.错题-收藏练习处理逻辑
+            // 4.错题练习处理逻辑
             this.data.storageKey = 'errorList'
             this.getANDSetData(null)
+        } else if (type == 'sclx') {
+            // 5.收藏练习处理逻辑
+            this.data.storageKey = 'collectionList'
+            this.getANDSetData(null)
         } else {
-
             console.log('未知type参数')
         }
 
 
 
     },
-
+    // 入参 fmt-格式 date-日期
+    dateFormat(fmt, date) {
+        let ret;
+        const opt = {
+            "Y+": date.getFullYear().toString(), // 年
+            "m+": (date.getMonth() + 1).toString(), // 月
+            "d+": date.getDate().toString(), // 日
+            "H+": date.getHours().toString(), // 时
+            "M+": date.getMinutes().toString(), // 分
+            "S+": date.getSeconds().toString() // 秒
+                // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (let k in opt) {
+            ret = new RegExp("(" + k + ")").exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+            };
+        };
+        return fmt;
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -447,10 +472,11 @@ Page({
                 return arr.indexOf(value) === index
             })
 
-            wx.setStorage({
-                key: 'errorList',
-                data: JSON.stringify(noDuplicateArray)
-            })
+            wx.setStorageSync('errorList', JSON.stringify(noDuplicateArray))
+
+            // 设置辅助参数更新时间
+            let date = new Date()
+            wx.setStorageSync('updataTime', this.dateFormat("YYYY-mm-dd HH:MM:SS", date))
         }
 
 
@@ -494,10 +520,13 @@ Page({
                 return arr.indexOf(value) === index
             })
 
-            wx.setStorage({
-                key: 'errorList',
-                data: JSON.stringify(noDuplicateArray)
-            })
+
+            wx.setStorageSync('errorList', JSON.stringify(noDuplicateArray))
+
+            // 设置辅助参数更新时间
+            let date = new Date()
+            wx.setStorageSync('updataTime', this.dateFormat("YYYY-mm-dd HH:MM:SS", date))
+
         }
     },
 

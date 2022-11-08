@@ -20,7 +20,7 @@
  *
  * */
 import config from './config'
-export default (url, data = {}, method = 'GET') => {
+export default (url, method = 'GET', data = {}) => {
 
     return new Promise((resolve, reject) => {
         // 请求数据前提示加载信息
@@ -33,7 +33,8 @@ export default (url, data = {}, method = 'GET') => {
             data,
             method,
             header: {
-                cookie: wx.getStorageSync('cookies') ? wx.getStorageSync('cookies').find(item => item.indexOf('MUSIC_U') !== -1) : ''
+                cookie: wx.getStorageSync('cookies') ? wx.getStorageSync('cookies').find(item => item.indexOf('MUSIC_U') !== -1) : '',
+                'content-type': method == 'POST' ? 'application/x-www-form-urlencoded' : 'application/json'
             },
             success: (res) => {
                 // console.log('请求成功: ', res);
