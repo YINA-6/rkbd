@@ -1,36 +1,45 @@
 <view class="container">
-  <view class="main-btn"></view>
-  <!-- 功能区域 -->
-  <view class="ljzt" id="ljzt" bindtap="onClickBtn">
-    <i class="iconfont icon-shijuan"></i><text>历届真题</text>
+  <view class="subject" bindtap="onChangeSubject">当前科目：
+  <text style="font-weight: bold;" >{{subjectInfo.text}}</text>
   </view>
-  <view class="ljzt" id="sjlx" bindtap="onClickBtn">
-    <i class="iconfont icon-suiji"></i><text>随机练习</text>
+  <view class="main-nav">
+    <!-- 功能区域 -->
+    <view class="ljzt" id="ljzt" bindtap="onClickBtn">
+      <i class="iconfont icon-shijuan"></i><text>历届真题</text>
+    </view>
+    <view class="ljzt" id="sjlx" bindtap="onClickBtn">
+      <i class="iconfont icon-suiji"></i><text>随机练习</text>
+    </view>
+    <view class="ljzt" id="zxlx" bindtap="onClickBtn">
+      <i class="iconfont icon-bazi"></i><text>专项练习</text>
+    </view>
+    <view class="ljzt" id="cuoti" bindtap="onClickBtn">
+      <i class="iconfont icon-cuotiben"></i><text>错题·收藏</text>
+    </view>
   </view>
-  <view class="ljzt" id="zxlx" bindtap="onClickBtn">
-    <i class="iconfont icon-bazi"></i><text>专项练习</text>
-  </view>
-  <view class="ljzt" id="cuoti" bindtap="onClickBtn">
-    <i class="iconfont icon-cuotiben"></i><text>错题·收藏</text>
-  </view>
-  <view class="line"></view>
+
   <!-- 公告栏区域 -->
   <view class="notice-board">
-    
     <view class="title-bar">
       <van-tag class="tname" type="primary" size="medium">公告栏</van-tag>
-      <text class="province-txt" bindtap="onChangeShow">所在省市|{{provinceInfo.name}} </text>
+      <view class="province-txt" bindtap="onChangeShow">
+        所在省市|
+        <text style="color: #1989fa; font-weight: bold;">{{provinceInfo.name}}</text>
+      </view>
     </view>
-    
+
     <!-- 信息 -->
     <view class="info">
-    <text >预报名时间：{{provinceInfo.registration}}</text>
-    <text >考试时间：{{provinceInfo.test}}</text>
+      <text>预报名时间：{{provinceInfo.registration}}</text>
+      <text>考试时间：{{provinceInfo.test}}</text>
     </view>
 
-    
 
-<!-- 省市选择 -->
-    <my-proSeletct isShow="{{isShow}}" bindgetProvinceEvent="getProvince"></my-proSeletct>
+    <!-- 省市选择 -->
+    <my-proSeletct isShow="{{proSeletctIsShow}}" bind:getProvinceEvent="getProvince"></my-proSeletct>
+    <!-- 科目选择 -->
+    <my-subject isShow="{{subjectSelectIsShow}}" items="{{subjectItem}}" bind:getSubjectEvent="getSubject"></my-subject>
+    <!-- 警告弹出框 -->
+    <van-dialog id="van-dialog" />
   </view>
 </view>

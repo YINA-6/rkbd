@@ -32,6 +32,10 @@ App({
 
 
     globalData: {
-        quantity: 0 // 已作答的数量
+        quantity: 0, // 已作答的数量
+        subjectInfo: {
+            text: '软件设计师',
+            id: 7
+        }
     }
 })

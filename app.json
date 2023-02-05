@@ -14,11 +14,15 @@
         "borderStyle": "white",
         "list": [{
                 "pagePath": "pages/index/index",
-                "text": "首页"
+                "text": "首页",
+                "iconPath": "/static/img/index.png",
+                "selectedIconPath": "/static/img/index-active.png"
             },
             {
                 "pagePath": "pages/mine/index",
-                "text": "我的"
+                "text": "我的",
+                "iconPath": "/static/img/mine.png",
+                "selectedIconPath": "/static/img/mine-active.png"
             }
         ]
     },
@@ -54,6 +58,7 @@
         "van-dialog": "@vant/weapp/dialog/index",
         "van-toast": "@vant/weapp/toast/index",
         "van-notify": "@vant/weapp/notify/index",
-        "van-notice-bar": "@vant/weapp/notice-bar/index"
+        "van-notice-bar": "@vant/weapp/notice-bar/index",
+        "van-tree-select": "@vant/weapp/tree-select/index"
     }
 }

@@ -1,11 +1,2 @@
-<view class="container">
-  <!-- <view>请在选择你要抽取的题目数量</view> -->
-  
-  <view class="btn-box">
-    <button bindtap="onClickAlterADD">+</button>
-    <text>随机数量: {{number}}</text>
-    <button bindtap="onClickAlterREDUCE">-</button>
-  </view>
-  <button bindtap="onClickConfirm">开始练习</button>
-  
-</view>
+<!--subpkg/randomExam/index.wxml-->
+<text>subpkg/randomExam/index.wxml</text>

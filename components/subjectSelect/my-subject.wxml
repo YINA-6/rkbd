@@ -1,0 +1,3 @@
+<van-popup show="{{ isShow }}" position="bottom" custom-style="height: 55%;" bind:click-overlay="onClickOverlay">
+  <van-tree-select items="{{ items }}" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onClickNav" bind:click-item="onClickItem" />
+</van-popup>

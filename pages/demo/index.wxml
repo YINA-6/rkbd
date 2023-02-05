@@ -1,6 +1,1 @@
-<view class="doc-demo">
-  <view role="button" class="doc-cell">
-    <view class="doc-cell-title">基础用法</view>
-    <i class="iconfont icon-jiantou"></i>
-  </view>
-</view>
+<my-subject items="{{subjectItem}}"></my-subject>

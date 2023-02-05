@@ -1,21 +1,53 @@
 /* pages/index/index.wxss */
 
-.ljzt {
-    width: 65px;
-    background-color: aqua;
-    border-radius: 100%;
+.subject {
+    height: 80rpx;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #00dfe5, #0087fa);
 }
 
-.line {
-    width: 95%;
-    height: 20rpx;
-    background-color: #f4f7f7;
+.main-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.main-nav view {
+    width: 300rpx;
+    margin-top: 20rpx;
+    border-radius: 20rpx;
+    box-shadow: 3px 5px 5px #ccc;
+    background-color: white;
+}
+
+.main-nav text {
+    color: #1989fa;
+    /* font-weight: bold; */
+}
+
+.main-nav .ljzt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.notice-board {
+    margin-top: 50rpx;
+    width: 93%;
+    background-color: white;
+    border-radius: 20rpx;
+    box-shadow: 3px 5px 5px #ccc;
 }
 
 .title-bar {
-    margin-top: 50rpx;
+    margin-top: 20rpx;
     display: flex;
-    width: 750rpx;
 }
 
 .tname {
@@ -24,7 +56,7 @@
 }
 
 .province-txt {
-    flex: 0.5;
+    flex: 0.7;
 }
 
 .info {
@@ -32,10 +64,10 @@
     flex-direction: column;
     margin: 20rpx;
     height: 350rpx;
-    background-color: antiquewhite;
+    background: linear-gradient(to right, #fbfaf1, #f7f5e8);
 }
 
 .info text {
-    color: #1dacf9;
+    color: #1989fa;
     margin: 20rpx;
 }

@@ -38,12 +38,12 @@
   <view class="bottom">
     <!-- 功能区域 -->
     <view class="func">
-      <view class="doc-demo">
+      <!-- <view class="doc-demo">
         <view role="button" class="doc-cell" id="feedback" bindtap="onClickNav">
           <view class="doc-cell-title">反馈</view>
           <i class="iconfont icon-jiantou"></i>
         </view>
-      </view>
+      </view> -->
       <view class="doc-demo">
         <view role="button" class="doc-cell" id="aboutUs" bindtap="onClickNav">
           <view class="doc-cell-title">关于我们</view>
@@ -54,7 +54,7 @@
 
     </view>
     <!-- 退出登陆 -->
-    <van-button wx:if="{{hasUserInfo}}" class="exit-btn" round type="default" size="large" bindtap="exitLogin">退出登陆</van-button>
+    <van-button wx:if="{{hasUserInfo}}" class="exit-btn" round type="default" size="large" bindtap="exitLogin" >退出登陆</van-button>
 
   </view>
 

@@ -5,13 +5,13 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
-  "libVersion": "2.19.2",
+  "libVersion": "2.25.4",
   "condition": {
     "miniprogram": {
       "list": [
         {
-          "name": "pages/mine/index",
-          "pathName": "pages/mine/index",
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
           "query": "",
           "launchMode": "default",
           "scene": null

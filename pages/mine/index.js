@@ -24,6 +24,7 @@ Page({
                     userInfo: res.userInfo,
                     hasUserInfo: true
                 })
+                console.log(res)
                 wx.setStorageSync('userInfo', this.data.userInfo)
                 this.getUserSession()
             }
@@ -257,8 +258,10 @@ Page({
                 })
                 return
             }
+            console.log(this.data.userSession.openid);
             wx.navigateTo({
-                url: '/subpkg/feedback/index',
+
+                url: '/subpkg/feedback/index?openId=' + this.data.userSession.openid,
             })
         } else if (currentTarget.id == 'aboutUs') {
             wx.navigateTo({

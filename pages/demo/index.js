@@ -7,12 +7,31 @@ Page({
      * 页面的初始数据
      */
     data: {
-        activeName: '1',
-    },
-    onChange(event) {
-        this.setData({
-            activeName: event.detail,
-        });
+        subjectItem: [{
+            text: '高级',
+            disabled: false,
+            children: [{
+                    text: '信息系统项目管理师',
+                    id: 1,
+                },
+                {
+                    text: '系统分析师',
+                    id: 2,
+                },
+                {
+                    text: '系统架构设计师',
+                    id: 3,
+                },
+                {
+                    text: '网络规划设计师',
+                    id: 4,
+                },
+                {
+                    text: '系统规划与管理师',
+                    id: 5,
+                },
+            ],
+        }]
     },
 
     /**

@@ -1,0 +1,1 @@
+在部署服务器前，请在resources目录下，修改application.yam文件里的配置项！

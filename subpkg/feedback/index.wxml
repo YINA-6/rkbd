@@ -1,6 +1,2 @@
-<van-notice-bar left-icon="volume-o" text="你的反馈如果有回复，将会在此页面显示。" />
-<view class="textarea-wrp">
-  <textarea auto-height placeholder="反馈内容字数限[10,500)..." maxlength="500" model:value="{{textValue}}" />
-</view>
-
-<button class="submit-btn" bindtap="submit">提交</button>
+<!--subpkg/feedback/index.wxml-->
+<text>subpkg/feedback/index.wxml</text>

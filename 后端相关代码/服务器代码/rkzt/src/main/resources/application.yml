@@ -1,0 +1,35 @@
+
+# 数据库源配置
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/rkzt?serverTimezone=UTC&characterEncoding=utf8 #请修改你的数据库地址
+      username: root #请修改你的用户名
+      password: root #请修改你的用户密码
+  # 默认文件大小1MB
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+server:
+  port: 80
+  servlet:
+    context-path: /api/v1
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto #主键按数据库规则
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 日志
+    map-underscore-to-camel-case: true #驼峰命名
+
+
+# 小程序数据
+wechat:
+  appid: xx #请修改成你的https://mp.weixin.qq.com/小程序信息
+  secret: xx #请修改成你的https://mp.weixin.qq.com/小程序信息
+# 文件上传下载路径
+file:
+  path: D:/IdeaProjects/rkzt/src/main/resources/static/image/ #请修改你的后端项目地址

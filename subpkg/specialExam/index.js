@@ -1,5 +1,7 @@
 // subpkg/specialExam/index.js
 import request from "../../utils/request"
+import Dialog from '@vant/weapp/dialog/dialog';
+const app = getApp()
 Page({
 
     /**
@@ -20,7 +22,7 @@ Page({
         const id = item.categoryId
         console.log(id)
         wx.navigateTo({
-            url: '/subpkg/swiper/index?cid=' + id + '&type=zxlx',
+            url: `/subpkg/swiper/index?cid=${id}&type=zxlx&subject=${app.globalData.subjectInfo.id}`
         })
     },
 
@@ -29,7 +31,19 @@ Page({
      */
     async onLoad(options) {
         // 获取分类信息
-        await request('category/dto').then(res => {
+        await request(`category/dto/${app.globalData.subjectInfo.id}`).then(res => {
+            if (res.data.length <= 0) {
+                // 报错
+                Dialog.alert({
+                    title: '警告',
+                    message: '当前科目题库正在录入中...',
+                }).then(() => {
+                    wx.switchTab({
+                        url: '/pages/index/index'
+                    })
+                });
+                return
+            }
             this.setData({ dataList: res.data })
         })
 

@@ -10,4 +10,8 @@
       </view>
     </van-collapse-item>
   </block>
+
 </van-collapse>
+<!-- 警告弹出框 -->
+
+<van-dialog id="van-dialog" />

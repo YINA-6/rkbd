@@ -1,8 +1,7 @@
 // subpkg/errorList/index.js
 
 import request from '../../utils/request';
-import Dialog from '@vant/weapp/dialog/dialog';
-
+const app = getApp()
 Page({
 
     /**
@@ -105,13 +104,13 @@ Page({
     async onLoad(options) {
 
         // 获取分类信息
-        await request('category').then(res => {
+        await request(`category/dto/${app.globalData.subjectInfo.id}`).then(res => {
             this.setData({
                 categoryList: res.data
             })
         })
 
-        let errorValue = wx.getStorageSync('errorList')
+        let errorValue = wx.getStorageSync(`errorList-${app.globalData.subjectInfo.id}`)
         if (errorValue != '') {
             this.data.categoryList.forEach((item, index) => {
                 // 修改categoryList，追加error元素
@@ -130,7 +129,7 @@ Page({
         }
 
 
-        let collectValue = wx.getStorageSync('collectionList')
+        let collectValue = wx.getStorageSync(`collectionList-${app.globalData.subjectInfo.id}`)
         if (collectValue != '') {
             this.data.categoryList.forEach((item, index) => {
                 // 修改categoryList，追加error元素

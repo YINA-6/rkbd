@@ -14,9 +14,8 @@
         </view>
         <!-- 附图区域 -->
         <view id='photo' class="photo" wx:if="{{item.photo !== ''}}">
-          <image class="photo-img" src="{{'/static/img/'+item.photo+'.png'}}" mode="heightFix"></image>
+          <image class="photo-img" src="{{'http://localhost/api/v1/file/download?name='+item.photo}}" mode="heightFix"></image>
         </view>
-        
 
         <!-- 选题区域 -->
         <view class="select" id="select">
@@ -139,4 +138,7 @@
       </block>
     </view>
   </van-popup>
+<!-- 弹出框 -->
+  <van-dialog id="van-dialog" />
+
 </view>

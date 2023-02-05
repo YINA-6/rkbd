@@ -1,5 +1,6 @@
 // subpkg/myswiper/mySwiper.js
 import request from '../../utils/request'
+import Dialog from '@vant/weapp/dialog/dialog';
 const app = getApp()
 Page({
 
@@ -285,33 +286,33 @@ Page({
     },
     defSetStorage(item) {
         wx.setStorage({
-            key: this.data.storageKey,
+            key: `${this.data.storageKey}-${app.globalData.subjectInfo.id}`,
             data: JSON.stringify(item)
         })
     },
     async getANDSetData(url) {
         // 0.优先加载本地数据
-        console.log(url)
+        console.log('this.data.storageKey', this.data.storageKey);
+        console.log('url', url)
         try {
-            var value = wx.getStorageSync(this.data.storageKey)
+            const key = `${this.data.storageKey}-${app.globalData.subjectInfo.id}`
+            var value = wx.getStorageSync(key)
             if (this.data.storageKey == 'random') {
                 value = false
             }
-
             if (value) {
                 // Do something with return value
                 console.log('已获取本地数据')
                 this.setData({
-                        dataList: JSON.parse(value) // 这是要存储的数据
-                    })
-                    // 错题-收藏的题特别处理
-
+                    dataList: JSON.parse(value) // 这是要存储的数据
+                })
+                console.log(this.data.dataList);
                 if (this.data.storageKey == 'errorList' || this.data.storageKey == 'collectionList') {
                     console.log('错题-收藏 特别处理');
                     // 清洗格式
                     this.data.dataList.forEach(x => {
-                        x.options = x.options.split(','), // 处理选项
-                            x.result = x.result.split(',') // 处理答案
+                        // x.options = x.options.split(','), // 处理选项
+                        //     x.result = x.result.split(',') // 处理答案
                         x.isRight = [], //  兼容多选题
                             x.selectOption = [], // 兼容多选题
                             x.analysisController = false // 是否显示解析
@@ -320,7 +321,7 @@ Page({
             } else {
                 // 2.请求服务器获取数据 
                 await request(url).then(res => {
-                        console.log('已获取网络数据')
+                        console.log('已获取网络数据res', res)
                         this.setData({
                             dataList: res.data // 这是要存储的数据
                         })
@@ -365,32 +366,32 @@ Page({
     async onLoad(options) {
         console.log(options)
         const type = options.type
+        const subject = app.globalData.subjectInfo.id
         if (type == 'ljzt') {
             // 1.历届真题处理逻辑
             const year = options.year
             const order = options.order
             this.data.storageKey = (year + order).toString()
-            const url = 'storage/' + year + '/' + order
+            const url = `storage/${year}/${order}/${subject}`
             this.getANDSetData(url)
         } else if (type == 'sjlx') {
             // 2.随机练习处理逻辑
-            const number = options.number
-            this.data.storageKey = 'random'
-            const url = 'storage/random/' + number
+            this.data.storageKey = `random`
+            const url = `storage/random/10/${app.globalData.subjectInfo.id}`
             this.getANDSetData(url)
         } else if (type == 'zxlx') {
             // 3.专项练习处理逻辑
             const id = options.cid
-            this.data.storageKey = 'categoryId' + id
-            const url = 'storage/cid/' + id
+            this.data.storageKey = `categoryId${id}`
+            const url = `storage/cid/${id}/${subject}`
             this.getANDSetData(url)
         } else if (type == 'ctlx') {
             // 4.错题练习处理逻辑
-            this.data.storageKey = 'errorList'
+            this.data.storageKey = `errorList`
             this.getANDSetData(null)
         } else if (type == 'sclx') {
             // 5.收藏练习处理逻辑
-            this.data.storageKey = 'collectionList'
+            this.data.storageKey = `collectionList`
             this.getANDSetData(null)
         } else {
             console.log('未知type参数')
@@ -440,17 +441,29 @@ Page({
     onHide() {
         // 更新本地存储
         console.log('页面隐藏，更新本地存储')
+    },
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload() {
+        console.log('页面卸载，更新本地存储')
+            // 更新本地存储
         let item = this.data.dataList
-        item.push({
-            recordIndex: this.data.currentIndex,
-            answerCount: this.data.answerCount
-        })
+        if (this.data.storageKey != 'errorList' && this.data.storageKey != 'collectionList') {
+            console.log("添加记录item");
+            item.push({
+                recordIndex: this.data.currentIndex,
+                answerCount: this.data.answerCount
+            })
+        }
+
         this.defSetStorage(item)
 
         if (this.data.collectionList.length > 0) {
             // 存储收藏数据
             wx.setStorage({
-                key: 'collectionList',
+                key: `collectionList-${app.globalData.subjectInfo.id}`,
                 data: JSON.stringify(this.data.collectionList)
             })
         }
@@ -461,7 +474,7 @@ Page({
             if (this.data.storageKey == 'errorList') {
                 return
             }
-            let storageError = wx.getStorageSync('errorList')
+            let storageError = wx.getStorageSync(`errorList-${app.globalData.subjectInfo.id}`)
             if (storageError != '') {
                 storageError.forEach(x => {
                     this.data.errorList.push(x)
@@ -472,62 +485,12 @@ Page({
                 return arr.indexOf(value) === index
             })
 
-            wx.setStorageSync('errorList', JSON.stringify(noDuplicateArray))
-
-            // 设置辅助参数更新时间
+            wx.setStorageSync(`errorList-${app.globalData.subjectInfo.id}`, JSON.stringify(noDuplicateArray))
+                // 设置辅助参数更新时间
             let date = new Date()
             wx.setStorageSync('updataTime', this.dateFormat("YYYY-mm-dd HH:MM:SS", date))
         }
 
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {
-        console.log('页面卸载，更新本地存储')
-        let item = this.data.dataList
-        item.push({
-            recordIndex: this.data.currentIndex,
-            answerCount: this.data.answerCount
-        })
-        this.defSetStorage(item)
-
-
-        if (this.data.collectionList.length > 0) {
-            // 存储收藏数据
-            wx.setStorage({
-                key: 'collectionList',
-                data: JSON.stringify(this.data.collectionList)
-            })
-        }
-
-        if (this.data.errorList.length > 0) {
-            //处理错题集数据 这里要获取本地存储的错题还有当前页面的错题，进行合并
-            // 如果当前页面是错题练习，则不再进行存储
-            if (this.data.storageKey == 'errorList') {
-                return
-            }
-            let storageError = wx.getStorageSync('errorList')
-            if (storageError != '') {
-                JSON.parse(storageError).forEach(x => {
-                    this.data.errorList.push(x)
-                })
-            }
-
-            let noDuplicateArray = this.data.errorList.filter((value, index, arr) => {
-                return arr.indexOf(value) === index
-            })
-
-
-            wx.setStorageSync('errorList', JSON.stringify(noDuplicateArray))
-
-            // 设置辅助参数更新时间
-            let date = new Date()
-            wx.setStorageSync('updataTime', this.dateFormat("YYYY-mm-dd HH:MM:SS", date))
-
-        }
     },
 
     /**

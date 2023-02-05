@@ -1,4 +1,5 @@
 import request from '../../utils/request'
+import Dialog from '@vant/weapp/dialog/dialog';
 
 Page({
 
@@ -25,9 +26,24 @@ Page({
      * 生命周期函数--监听页面加载
      */
     async onLoad(options) {
+        console.log(options);
         let list = []
         let data = []
-        await request('storage/yearlist').then(res => {
+
+        await request(`storage/yearlist/${options.subject}`).then(res => {
+            console.log(res);
+            if (res.data.length <= 0) {
+                // 报错
+                Dialog.alert({
+                    title: '警告',
+                    message: '当前科目题库正在录入中...',
+                }).then(() => {
+                    wx.switchTab({
+                        url: '/pages/index/index'
+                    })
+                });
+                return
+            }
             data = res.data
             res.data.forEach(x => {
                 let order = x.substring(4, 5)
