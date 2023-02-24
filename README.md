@@ -12,7 +12,7 @@
 
 ### 1）题库模块
 
-<img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214318002.png" alt="image-20230205214318002" style="zoom: 80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214455383.png" alt="image-20230205214455383" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214532751.png" alt="image-20230205214532751" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214547630.png" alt="image-20230205214547630" style="zoom:80%;" />
+<img src="./phone/1.png" alt="image-20230205214318002" style="zoom: 80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214455383.png" alt="image-20230205214455383" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214532751.png" alt="image-20230205214532751" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214547630.png" alt="image-20230205214547630" style="zoom:80%;" />
 
 
 
