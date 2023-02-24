@@ -12,26 +12,30 @@
 
 ### 1）题库模块
 
-<img src="https://github.com/YINA-6/rkbd/blob/master/photo/1.png" alt="img-1" style="zoom: 30%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214455383.png" alt="image-20230205214455383" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214532751.png" alt="image-20230205214532751" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214547630.png" alt="image-20230205214547630" style="zoom:80%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/1.png" alt="image-1" style="zoom: 60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/2.png" alt="image-2" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/3.png" alt="image-3" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/4.png" alt="image-4" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/5.png" alt="image-5" style="zoom:60%;" />
 
 
 
 ### 2）答题模块
 
-<img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214607602.png" alt="image-20230205214607602" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214610885.png" alt="image-20230205214610885" style="zoom:80%;" />
-
-<img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214626266.png" alt="image-20230205214626266" style="zoom:80%;" />
-
-<img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214637194.png" alt="image-20230205214637194" style="zoom:80%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/6.png" alt="image-6" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/7.png" alt="image-7" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/8.png" alt="image-8" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/9.png" alt="image-9" style="zoom:60%;" />
 
 
 
 ### 3）用户模块
 
-<img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214706839.png" alt="image-20230205214706839" style="zoom:80%;" /><img src="C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214716654.png" alt="image-20230205214716654" style="zoom:80%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/10.png" alt="image-10" style="zoom:60%;" />
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/11.png" alt="image-11" style="zoom:60%;" />
 
 
 
 4）后台管理系统
 
-![image-20230205214737636](C:\Users\YDY‘\WeChatProjects\rkbd\file_resources\image-20230205214737636.png)
+<img src="https://github.com/YINA-6/rkbd/blob/master/photo/12.png" alt="image-12" style="zoom:60%;" />
